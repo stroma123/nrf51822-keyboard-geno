@@ -1,3 +1,0 @@
-[submodule "tmk"]
-	path = tmk
-	url = https://github.com/tmk/tmk_keyboard
