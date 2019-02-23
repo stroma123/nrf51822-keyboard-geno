@@ -35,25 +35,25 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {3,4,5,6,7,15,14,10,9,8,2,0
 #ifdef KEYBOARD_60
 
 #define LED_CAPS 18
-#define LED_EXT1 16
-#define LED_EXT2 14
-#define LED_EXT3 12
-#define LED_EXT4 10
-#define LED_EXT5 8
+//#define LED_NUM  12
+#define LED_BLE  14
+#define LED_BATT 16
+//#define LED_EXT4 10
+//#define LED_EXT5 8
 
 #define UART_TXD 22
 #define UART_RXD 21
 
-static const uint8_t row_pin_array[MATRIX_ROWS] = {24,25,26,27,28};
+static const uint8_t row_pin_array[MATRIX_ROWS] = {24,20,29,25,28};
 
-#define BOOTLOADER_BUTTON 20
+#define BOOTLOADER_BUTTON 23
 #define UPDATE_IN_PROGRESS_LED      LED_CAPS
-#define ADVERTISING_LED_PIN_NO      LED_EXT1
-#define CONNECTED_LED_PIN_NO        LED_EXT2
+#define ADVERTISING_LED_PIN_NO      LED_NUM
+#define CONNECTED_LED_PIN_NO        LED_BLE
 #define LED_POSITIVE
 
 /**
- * @brief 此版本中有一个硬件设计错误，导致ADC电量测量无法使用。这里将其关闭。
+ * @brief REVA版本中有一个硬件设计错误，导致ADC电量测量无法使用。这里将其关闭。
  * 
  */
 #ifdef KEYBOARD_REVA

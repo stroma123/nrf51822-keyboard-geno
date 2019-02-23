@@ -22,7 +22,7 @@
 #include "wait.h"
 
 #ifndef DEBOUNCE
-#   define DEBOUNCE	1
+#   define DEBOUNCE	5
 #endif
 
 static uint8_t debouncing = DEBOUNCE;

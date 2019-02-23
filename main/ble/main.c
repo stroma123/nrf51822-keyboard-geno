@@ -319,6 +319,7 @@ void sleep_mode_enter(bool notice)
 
     if(notice)led_notice(0x00, true);
     else led_notice(0x00, false);
+	  set_blue_led(false);
     matrix_sleep_prepare();
 #ifdef UART_SUPPORT
     uart_sleep_prepare();
@@ -437,21 +438,27 @@ static void power_manage(void)
 
 #ifdef UART_SUPPORT
 
+/**@brief USB连接状态改变函数（当插入USB线或拔出USB线执行）.
+ */
 void uart_state_change(bool state)
 {
     uint32_t err_code;
-    if(state)
-    {
+    if(state)  
+    {    //USB线未接入
         err_code = app_timer_stop(m_keyboard_sleep_timer_id);
         APP_ERROR_CHECK(err_code);
+			  #ifdef POWER_SAVE_MODE
         led_powersave_mode(false);
+			  #endif
         keyboard_switch_scan_mode(false);
     }
     else
-    {
+    {    //USB线接入
         err_code = app_timer_start(m_keyboard_sleep_timer_id, KEYBOARD_FREE_INTERVAL, NULL);
         APP_ERROR_CHECK(err_code);
+			  #ifdef POWER_SAVE_MODE
         led_powersave_mode(true);
+			  #endif
     }
 }
 #endif
@@ -490,10 +497,10 @@ int main(void)
     wdt_init();
     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
-    
+#ifdef POWER_SAVE_MODE   
     led_change_handler(0x01, true);
     led_notice(0x07, 0x00);
-    
+#endif
 #ifdef UART_SUPPORT
     uart_state_change(uart_current_mode != UART_MODE_IDLE);
 #endif
