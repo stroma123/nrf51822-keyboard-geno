@@ -25,7 +25,7 @@
 #include "softdevice_handler_appsh.h"
 #include "device_manager.h"
 #include "pstorage.h"
-
+#include "keyboard_led.h"
 #include "bootloader_util.h"
 #include "../tmk/tmk_core/common/bootloader.h"
 
@@ -358,7 +358,7 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
         else
     #endif
         sleep_mode_enter(true);
-
+        //ble_idle_sleep_counter_set(BLE_IDLE_TIMEOUT);
         break;
 
     case BLE_ADV_EVT_WHITELIST_REQUEST:
@@ -396,6 +396,7 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
         break;
     }
     default:
+		//	  ble_idle_sleep_counter_set(SLEEP_OFF_TIMEOUT);
         break;
     }
 }
@@ -413,6 +414,7 @@ static void on_ble_evt(ble_evt_t *p_ble_evt)
     {
     case BLE_GAP_EVT_CONNECTED:
         m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+		    set_ble_led_on(true);
         break;
 
     case BLE_EVT_TX_COMPLETE:
@@ -420,7 +422,7 @@ static void on_ble_evt(ble_evt_t *p_ble_evt)
 
     case BLE_GAP_EVT_DISCONNECTED:
         m_conn_handle = BLE_CONN_HANDLE_INVALID;
-
+		    set_ble_led_on(false);
         // Reset m_caps_on variable. Upon reconnect, the HID host will re-send the Output
         // report containing the Caps lock state.
         break;

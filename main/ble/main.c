@@ -55,6 +55,7 @@
 #define KEYBOARD_SCAN_INTERVAL_SLOW APP_TIMER_TICKS(KEYBOARD_SLOW_SCAN_INTERVAL, APP_TIMER_PRESCALER)            /**< Keyboard slow scan interval (ticks). */
 #define KEYBOARD_FREE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)                /**< 键盘Tick计时器 */
 #define KEYBOARD_WDT_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
+//#define BLE_IDLE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
 
@@ -65,11 +66,13 @@
 APP_TIMER_DEF(m_keyboard_scan_timer_id);
 APP_TIMER_DEF(m_keyboard_sleep_timer_id);
 APP_TIMER_DEF(m_keyboard_wdt_timer_id);
+//APP_TIMER_DEF(m_ble_idle_timer_id);
 
 static uint8_t passkey_enter_index = 0;
 static uint8_t passkey_entered[6];
 
 static uint16_t sleep_timer_counter = 0;
+//static uint16_t ble_idle_timer_counter = 0;
 static nrf_drv_wdt_channel_id m_channel_id;
 
 /**@brief Callback function for asserts in the SoftDevice.
@@ -104,6 +107,7 @@ void service_error_handler(uint32_t nrf_error)
 static void keyboard_scan_timeout_handler(void *p_context);
 static void keyboard_sleep_timeout_handler(void *p_context);
 static void keyboard_wdt_timeout_handler(void *p_context);
+//tatic void ble_idle_timeout_handler(void *p_context);
 
 /**@brief 计时器初始化函数
  *
@@ -133,6 +137,13 @@ static void timers_init(void)
                                 keyboard_wdt_timeout_handler);
 
     APP_ERROR_CHECK(err_code);
+		
+		/*    
+    err_code = app_timer_create(&m_ble_idle_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                ble_idle_timeout_handler);
+
+    APP_ERROR_CHECK(err_code); */
 }
 
 /**@brief 初始化程序所需的服务
@@ -210,6 +221,25 @@ static void keyboard_sleep_timeout_handler(void *p_context)
         sleep_mode_enter(true);
     }
 }
+
+/**
+ * @brief 蓝牙离线睡眠定时器
+ * 
+ * @param p_context 
+
+static void ble_idle_timeout_handler(void *p_context)
+{
+ if (ble_idle_timer_counter >= SLEEP_OFF_TIMEOUT - BLE_IDLE_TIMEOUT && ble_idle_timer_counter < SLEEP_OFF_TIMEOUT)
+    {
+			  ble_idle_timer_counter++;
+			  if (ble_idle_timer_counter == SLEEP_OFF_TIMEOUT)
+        {
+					  ble_idle_timer_counter = 0 ;
+            sleep_mode_enter(true);
+        }
+    }
+}
+ */
 /**
  * @brief 重置键盘睡眠定时器
  * 
@@ -223,6 +253,20 @@ static void keyboard_sleep_counter_reset(void)
     sleep_timer_counter = 0;
 }
 
+/**
+ * @brief 设置蓝牙离线定时器
+ * 
+
+void ble_idle_sleep_counter_set(uint32_t timer)
+{
+	  //uint32_t err_code;
+	  if(uart_current_mode == UART_MODE_IDLE) {
+      ble_idle_timer_counter = SLEEP_OFF_TIMEOUT - timer;
+	    //err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
+      //APP_ERROR_CHECK(err_code);
+	  }
+}
+ */
 /**@brief Function for handling the keyboard scan timer timeout.
  *
  * @details This function will be called each time the keyboard scan timer expires.
@@ -304,6 +348,9 @@ static void timers_start(void)
     err_code = app_timer_start(m_keyboard_wdt_timer_id, KEYBOARD_WDT_INTERVAL, NULL);
     APP_ERROR_CHECK(err_code);
 
+    //err_code = app_timer_start(m_ble_idle_timer_id, BLE_IDLE_INTERVAL, NULL);
+    //APP_ERROR_CHECK(err_code);	
+
     battery_timer_start();
 }
 
@@ -319,7 +366,7 @@ void sleep_mode_enter(bool notice)
 
     if(notice)led_notice(0x00, true);
     else led_notice(0x00, false);
-	  set_blue_led(false);
+	  set_ble_led_on(false);
     matrix_sleep_prepare();
 #ifdef UART_SUPPORT
     uart_sleep_prepare();
@@ -487,7 +534,7 @@ int main(void)
     uart_set_evt_handler(&uart_state_change);
     uart_init();
 #endif
-	keyboard_init();
+    keyboard_init();
     services_init();
 
     // set driver after all module inited.
@@ -501,6 +548,7 @@ int main(void)
     led_change_handler(0x01, true);
     led_notice(0x07, 0x00);
 #endif
+
 #ifdef UART_SUPPORT
     uart_state_change(uart_current_mode != UART_MODE_IDLE);
 #endif

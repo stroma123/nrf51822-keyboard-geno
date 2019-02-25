@@ -46,7 +46,7 @@ void set_led_num(uint8_t num)
  * 
  * @param val 
  */
-void set_blue_led(uint8_t val)
+void set_ble_led_on(uint8_t val)
 {
 #ifdef LED_BLE
     nrf_gpio_pin_write(LED_BLE, val);
@@ -58,7 +58,7 @@ void set_blue_led(uint8_t val)
  * 
  * @param val 
  */
-void set_battery_led(uint8_t val)
+void set_battery_led_on(uint8_t val)
 {
 #ifdef LED_BATT
     nrf_gpio_pin_write(LED_BATT, val);
