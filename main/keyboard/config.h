@@ -59,7 +59,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     //#define KEYBOARD_DEBUG      //启用此选项，通电后不需要按键就启动蓝牙,但无法通过power_sleep按键手动关机;如果关闭，开启蓝牙需要按Space+U，但可手动关机。
     //#define KEYBOARD_REVA       //LOT60-BLE REVA版的电量检测有问题，需要启用此选项屏蔽ADC检测针脚
-		//#define POWER_SAVE_MODE     //省电模式选项，启用此选项后键盘指示灯仅闪烁一次，不常亮
     
     #define UART_SUPPORT
     #define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
@@ -96,6 +95,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 可能可以缓解慢速扫描模式下第一次按键后响应时间过长的问题。
  **/
 #define SLOW_MODE_EARLY_EXIT
+
+// LED自动熄灭时长(ms)，设为0则不自动熄灭
+#define LED_AUTOOFF_TIME 0
 
 /*
  * Feature disable options
