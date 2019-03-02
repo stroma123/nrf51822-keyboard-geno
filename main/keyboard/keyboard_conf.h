@@ -48,7 +48,8 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {24,20,29,25,28};
 
 #define BOOTLOADER_BUTTON 23
 #define UPDATE_IN_PROGRESS_LED      LED_CAPS
-#define ADVERTISING_LED_PIN_NO      LED_NUM
+#define ADVERTISING_LED_PIN_NO      LED_EXT2
+#define CONNECTED_LED_PIN_NO        LED_EXT1
 #define LED_BLE                     LED_EXT2
 #define LED_NUM                     LED_EXT1
 #define LED_POSITIVE
