@@ -17,15 +17,13 @@ static bool uart_check_flag, uart_arrive_flag;
 static void uart_tx(uint8_t c)
 {
     SBUF1 = c;
-    while (U1TI == 0)
-        ;
+    while (U1TI == 0);
     U1TI = 0;
 }
 
 static uint8_t uart_rx()
 {
-    while (U1RI == 0)
-        ;
+    while (U1RI == 0);
     U1RI = 0;
     return SBUF1;
 }
