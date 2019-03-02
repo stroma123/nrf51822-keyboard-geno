@@ -40,16 +40,17 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {3,4,5,6,7,15,14,10,9,8,2,0
 #define LED_EXT3  12
 #define LED_EXT4  10
 #define LED_EXT5  8
+#define LED_RGB   23
 
 #define UART_TXD 22
 #define UART_RXD 21
 
 static const uint8_t row_pin_array[MATRIX_ROWS] = {24,20,29,25,28};
 
-#define BOOTLOADER_BUTTON 23
-#define UPDATE_IN_PROGRESS_LED      LED_EXT5
-#define ADVERTISING_LED_PIN_NO      LED_EXT5
-#define CONNECTED_LED_PIN_NO        LED_EXT5
+#define BOOTLOADER_BUTTON           LED_EXT5
+#define UPDATE_IN_PROGRESS_LED      LED_EXT4
+#define ADVERTISING_LED_PIN_NO      LED_EXT4
+#define CONNECTED_LED_PIN_NO        LED_EXT4
 #define LED_BLE                     LED_EXT2
 #define LED_CHARGING                LED_EXT1
 #define LED_NUM                     LED_EXT3

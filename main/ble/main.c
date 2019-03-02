@@ -244,7 +244,7 @@ static void keyboard_sleep_counter_reset(void)
 /**
  * @brief 设置蓝牙离线定时器
  * 
- */
+
 void ble_idle_sleep_counter_set(uint32_t timer)
 {
 	  //uint32_t err_code;
@@ -253,7 +253,7 @@ void ble_idle_sleep_counter_set(uint32_t timer)
 	    //err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
       //APP_ERROR_CHECK(err_code);
 	  //}
-}
+} */
 
 /**@brief Function for handling the keyboard scan timer timeout.
  *
