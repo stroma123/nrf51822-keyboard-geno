@@ -117,9 +117,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
 
+/* period of tapping(ms) */
+#define TAPPING_TERM    300
+/* tap count needed for toggling a feature */
+#define TAPPING_TOGGLE  5
+/* Oneshot timeout(ms) */
+#define ONESHOT_TIMEOUT 300
+
+/* Boot Magic salt key: Space */
+#define BOOTMAGIC_KEY_SALT      KC_SPACE
+
 #define BOOTMAGIC_ENABLE
 #define EXTRAKEY_ENABLE
 #define USB_6KRO_ENABLE
+#define COMMAND_ENABLE
 
 /* fix led state on android */
 #define LED_STATE_FIX
