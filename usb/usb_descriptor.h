@@ -4,7 +4,7 @@
 #define USB_VID               0x3D41    // Vendor ID (VID)
 #define USB_PID               0x1919        // Product ID (PID)
 #define VER_FW_H              0x08          // Device release number, in binary-coded decimal
-#define VER_FW_L              0x10          // Device release number, in binary-coded decimal
+#define VER_FW_L              0x11          // Device release number, in binary-coded decimal
 #define USB_STR_INDEX_SERNUM  3
 #define SIZEOF_DEVICE_DESCRIPTOR  0x12
 #define EP0_PACKET_SIZE       0x08
@@ -220,7 +220,7 @@ uint8_t const StringDescriptor[] = {
 
     14,        // Length of this string descriptor
     3,        // bDescriptorType
-    '1',0x00,'1',0x00,'4',0x00,'5',0x00,'1',0x00,'4',0x00,
+    '1',0x00,'9',0x00,'0',0x00,'3',0x00,'1',0x00,'1',0x00,
 
     // String index4, Configuration String
 
@@ -246,9 +246,9 @@ uint8_t const StringDescriptor[] = {
         // String index6, Interface String
     32,        // Length of this string descriptor
     3,        // bDescriptorType
-    'K',0x00,'e',0x00,'y',0x00,'b',0x00,'o',0x00,'a',0x00,
-    'r',0x00,'d',0x00,' ',0x00,'K',0x00,'e',0x00,'y',0x00,
-    'm',0x00,'a',0x00,'p',0x00,
+    'K',0x00,'e',0x00,'y',0x00,'m',0x00,'a',0x00,'p',0x00,
+    ' ',0x00,'D',0x00,'o',0x00,'w',0x00,'n',0x00,'l',0x00,
+    'o',0x00,'a',0x00,'d',0x00,
 };
 
 
