@@ -74,13 +74,11 @@ bool command_proc(uint8_t code)
             if (!IS_COMMAND())
                 return false;
             return (command_extra(code) || command_common(code));
-            break;
         case CONSOLE:
             if (IS_COMMAND())
                 return (command_extra(code) || command_common(code));
             else
                 return (command_console_extra(code) || command_console(code));
-            break;
 #ifdef MOUSEKEY_ENABLE
         case MOUSEKEY:
             mousekey_console(code);
@@ -90,7 +88,6 @@ bool command_proc(uint8_t code)
             command_state = ONESHOT;
             return false;
     }
-    return true;
 }
 
 /* TODO: Refactoring is needed. */
@@ -148,26 +145,6 @@ static void command_common_help(void)
 static void print_eeconfig(void)
 {
     print("default_layer: "); print_dec(eeconfig_read_default_layer()); print("\n");
-
-    debug_config_t dc;
-    dc.raw = eeconfig_read_debug();
-    print("debug_config.raw: "); print_hex8(dc.raw); print("\n");
-    print(".enable: "); print_dec(dc.enable); print("\n");
-    print(".matrix: "); print_dec(dc.matrix); print("\n");
-    print(".keyboard: "); print_dec(dc.keyboard); print("\n");
-    print(".mouse: "); print_dec(dc.mouse); print("\n");
-
-    keymap_config_t kc;
-    kc.raw = eeconfig_read_keymap();
-    print("keymap_config.raw: "); print_hex8(kc.raw); print("\n");
-    print(".swap_control_capslock: "); print_dec(kc.swap_control_capslock); print("\n");
-    print(".capslock_to_control: "); print_dec(kc.capslock_to_control); print("\n");
-    print(".swap_lalt_lgui: "); print_dec(kc.swap_lalt_lgui); print("\n");
-    print(".swap_ralt_rgui: "); print_dec(kc.swap_ralt_rgui); print("\n");
-    print(".no_gui: "); print_dec(kc.no_gui); print("\n");
-    print(".swap_grave_esc: "); print_dec(kc.swap_grave_esc); print("\n");
-    print(".swap_backslash_backspace: "); print_dec(kc.swap_backslash_backspace); print("\n");
-    print(".nkro: "); print_dec(kc.nkro); print("\n");
 
 #ifdef BACKLIGHT_ENABLE
     backlight_config_t bc;

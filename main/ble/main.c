@@ -107,7 +107,7 @@ void service_error_handler(uint32_t nrf_error)
 static void keyboard_scan_timeout_handler(void* p_context);
 static void keyboard_sleep_timeout_handler(void* p_context);
 static void keyboard_wdt_timeout_handler(void* p_context);
-//tatic void ble_idle_timeout_handler(void *p_context);
+//static void ble_idle_timeout_handler(void *p_context);
 
 /**@brief 计时器初始化函数
  *
