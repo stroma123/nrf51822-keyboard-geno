@@ -40,37 +40,45 @@ const action_t PROGMEM fn_actions[] = {
 #ifdef KEYBOARD_60
 
 const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /* 0: qwerty */
+    /* 0: 二合一 */
     KEYMAP_ANSI(
         ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC, \
         TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSLS, \
         CAPS,A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,     ENT,  \
         LSFT,     Z,   X,   C,   V,   B,   N,   M,   COMM,DOT, SLSH,     FN4,  \
         LCTL,LGUI,LALT,          SPC,                     FN0, FN1, FN2, FN3),
-    /* 1: Poker Fn */
+    /* 1: qwerty */
+	    KEYMAP_ANSI(
+        ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC, \
+        TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSLS, \
+        CAPS,A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,     ENT,  \
+        LSFT,     Z,   X,   C,   V,   B,   N,   M,   COMM,DOT, SLSH,     RSFT, \
+        LCTL,LGUI,LALT,          SPC,                     FN0, RALT, FN7, RCTL),
+    /* 2: Poker Fn */
     KEYMAP_ANSI(
         GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL,  \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,PGUP,PGDN,INS,  \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,HOME,END,      TRNS, \
         TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,VOLD,VOLU,MUTE,     UP,   \
         TRNS,TRNS,TRNS,          TRNS,                    TRNS,LEFT,DOWN,RGHT),
-	  /* 1: system key */
-	    KEYMAP_ANSI(
-        FN5 ,MYCM,MAIL,CALC,EJCT,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
-        FN6 ,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS, \
-        TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS, \
+	  /* 3: system key */
+	  KEYMAP_ANSI(
+        FN5, MYCM,MAIL,CALC,MSEL,TRNS,TRNS,TRNS,MPLY,MPRV,MNXT,MRWD,MFFD,TRNS, \
+        FN6, TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,PGUP,PGDN,INS,  \
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,HOME,END,      TRNS, \
+        TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,VOLD,VOLU,MUTE,     TRNS, \
         TRNS,TRNS,TRNS,          TRNS,                    TRNS,TRNS,TRNS,TRNS),
 };
 const action_t PROGMEM fn_actions[] = {
     /* Poker Layout */
-    [0] = ACTION_LAYER_TAP_KEY(1, KC_DELETE),
+    [0] = ACTION_LAYER_TAP_KEY(2, KC_DELETE),
     [1] = ACTION_MODS_TAP_KEY(MOD_RALT, KC_LEFT),
-    [2] = ACTION_LAYER_TAP_KEY(2, KC_DOWN),
+    [2] = ACTION_LAYER_TAP_KEY(3, KC_DOWN),
     [3] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_RIGHT),
     [4] = ACTION_MODS_TAP_KEY(MOD_RSFT, KC_UP),
     [5] = ACTION_FUNCTION(POWER_SLEEP),
     [6] = ACTION_FUNCTION(SWITCH_DEVICE),
+    [7] = ACTION_LAYER_TAP_KEY(3, KC_APP),
 };
 
 #endif
