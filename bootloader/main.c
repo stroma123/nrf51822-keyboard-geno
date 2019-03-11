@@ -96,10 +96,10 @@ static void timers_init(void)
  */
 static void buttons_init(void)
 {
-    nrf_gpio_cfg_input(BOOTLOADER_BUTTON,
-                             NRF_GPIO_PIN_PULLUP);
-    // nrf_gpio_cfg_output(BOOTLOADER_BTN_OPT);                        
-    // nrf_gpio_pin_set(BOOTLOADER_BTN_OPT);
+    nrf_gpio_cfg_sense_input(BOOTLOADER_BUTTON,
+                             NRF_GPIO_PIN_PULLUP, 
+                             NRF_GPIO_PIN_SENSE_LOW);
+
 }
 
 
@@ -213,7 +213,7 @@ int main(void)
     }
 
     dfu_start  = app_reset;
-    dfu_start |= (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false); //»Áπ˚BL BUTTON ‰»ÎµÕµÁ∆Ω(∂ÃΩ”)£¨‘Ú∆Ù∂ØDFU£®dfu_start£©
+    dfu_start |= (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false); //Â¶ÇÊûúBL BUTTONËæìÂÖ•‰ΩéÁîµÂπ≥(Áü≠Êé•)ÔºåÂàôÂêØÂä®DFUÔºàdfu_startÔºâ
     
     if (dfu_start || (!bootloader_app_is_valid(DFU_BANK_0_REGION_START)))
     {
