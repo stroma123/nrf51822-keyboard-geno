@@ -61,6 +61,7 @@ EventRecorderStub.scvd
 # project
 *.uvgui.*
 *.uvguix.*
-
+*.uvoptx.*
 
 # End of https://www.gitignore.io/api/keil
+
