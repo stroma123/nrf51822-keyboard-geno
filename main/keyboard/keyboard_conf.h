@@ -53,12 +53,13 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {24,20,29,25,28};
 #define CONNECTED_LED_PIN_NO        LED_EXT4
 #define LED_BLE                     LED_EXT2
 #define LED_CHARGING                LED_EXT1
-#define LED_NUM                     LED_EXT3
+#define LED_FULL                    LED_EXT3
+#define LED_NUM                     LED_EXT4
 #define LED_POSITIVE
 
 /**
  * @brief REVA版本中有一个硬件设计错误，导致ADC电量测量无法使用。这里将其关闭。
- * 
+ *
  */
 #ifdef KEYBOARD_REVA
     static const uint8_t column_pin_array[MATRIX_COLS] = {19,17,15,13,11,9,7,6,5,4,3,2,1,0};
