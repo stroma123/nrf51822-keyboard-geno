@@ -30,7 +30,9 @@
 #include "app_scheduler.h"
 #include "app_timer_appsh.h"
 #include "ble_advertising.h"
+#ifdef WDT_ENABLE
 #include "nrf_drv_wdt.h"
+#endif // WDT_ENABLE
 #include "pstorage.h"
 #include "softdevice_handler_appsh.h"
 
@@ -54,7 +56,9 @@
 #define KEYBOARD_SCAN_INTERVAL APP_TIMER_TICKS(KEYBOARD_FAST_SCAN_INTERVAL, APP_TIMER_PRESCALER) /**< Keyboard scan interval (ticks). */
 #define KEYBOARD_SCAN_INTERVAL_SLOW APP_TIMER_TICKS(KEYBOARD_SLOW_SCAN_INTERVAL, APP_TIMER_PRESCALER) /**< Keyboard slow scan interval (ticks). */
 #define KEYBOARD_FREE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER) /**< 键盘Tick计时器 */
+#ifdef WDT_ENABLE
 #define KEYBOARD_WDT_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
+#endif // WDT_ENABLE
 //#define BLE_IDLE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
@@ -65,7 +69,9 @@
 
 APP_TIMER_DEF(m_keyboard_scan_timer_id);
 APP_TIMER_DEF(m_keyboard_sleep_timer_id);
+#ifdef WDT_ENABLE
 APP_TIMER_DEF(m_keyboard_wdt_timer_id);
+#endif // WDT_ENABLE
 //APP_TIMER_DEF(m_ble_idle_timer_id);
 
 static uint8_t passkey_enter_index = 0;
@@ -73,7 +79,9 @@ static uint8_t passkey_entered[6];
 
 static uint16_t sleep_timer_counter = 0;
 //static uint16_t ble_idle_timer_counter = 0;
+#ifdef WDT_ENABLE
 static nrf_drv_wdt_channel_id m_channel_id;
+#endif // WDT_ENABLE
 
 /**@brief Callback function for asserts in the SoftDevice.
  *
@@ -106,7 +114,9 @@ void service_error_handler(uint32_t nrf_error)
 
 static void keyboard_scan_timeout_handler(void* p_context);
 static void keyboard_sleep_timeout_handler(void* p_context);
+#ifdef WDT_ENABLE
 static void keyboard_wdt_timeout_handler(void* p_context);
+#endif // WDT_ENABLE
 //static void ble_idle_timeout_handler(void *p_context);
 
 /**@brief 计时器初始化函数
@@ -131,13 +141,13 @@ static void timers_init(void)
         keyboard_sleep_timeout_handler);
 
     APP_ERROR_CHECK(err_code);
-
+#ifdef WDT_ENABLE
     err_code = app_timer_create(&m_keyboard_wdt_timer_id,
         APP_TIMER_MODE_REPEATED,
         keyboard_wdt_timeout_handler);
     APP_ERROR_CHECK(err_code);
-		
-		/*    
+#endif // WDT_ENABLE
+		/*
     err_code = app_timer_create(&m_ble_idle_timer_id,
                                 APP_TIMER_MODE_REPEATED,
                                 ble_idle_timeout_handler);
@@ -330,10 +340,10 @@ static void timers_start(void)
 
     err_code = app_timer_start(m_keyboard_sleep_timer_id, KEYBOARD_FREE_INTERVAL, NULL);
     APP_ERROR_CHECK(err_code);
-
+#ifdef WDT_ENABLE
     err_code = app_timer_start(m_keyboard_wdt_timer_id, KEYBOARD_WDT_INTERVAL, NULL);
     APP_ERROR_CHECK(err_code);
-
+#endif // WDT_ENABLE
     //err_code = app_timer_start(m_ble_idle_timer_id, BLE_IDLE_INTERVAL, NULL);
     //APP_ERROR_CHECK(err_code);	
 
@@ -404,7 +414,7 @@ static void ble_stack_init(void)
     uint32_t err_code;
 
     // Initialize the SoftDevice handler module.
-    SOFTDEVICE_HANDLER_APPSH_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_250MS_CALIBRATION, true);
+    SOFTDEVICE_HANDLER_APPSH_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, true);
 
     // Enable BLE stack
     ble_enable_params_t ble_enable_params;
@@ -442,6 +452,7 @@ static void buttons_leds_init(void)
     led_init();
 }
 
+#ifdef WDT_ENABLE
 static void wdt_evt(void) {}
 
 static void wdt_init(void)
@@ -460,6 +471,7 @@ static void keyboard_wdt_timeout_handler(void* p_context)
     UNUSED_PARAMETER(p_context);
     nrf_drv_wdt_channel_feed(m_channel_id);
 }
+#endif // WDT_ENABLE
 
 /**@brief Function for the Power manager.
  */
@@ -523,15 +535,18 @@ int main(void)
     host_set_driver(&driver);
     // Start execution.
     timers_start();
+#ifdef WDT_ENABLE
     wdt_init();
+#endif
     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
 
 #ifdef UART_SUPPORT
     uart_state_change(uart_current_mode != UART_MODE_IDLE);
 #endif
-
+#ifdef WDT_ENABLE
     nrf_drv_wdt_channel_feed(m_channel_id);
+#endif
     led_flash_all_timer();
 
     // Enter main loop.
