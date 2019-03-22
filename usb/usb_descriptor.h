@@ -220,7 +220,7 @@ uint8_t const StringDescriptor[] = {
 
     14,        // Length of this string descriptor
     3,        // bDescriptorType
-    '1',0x00,'9',0x00,'0',0x00,'3',0x00,'1',0x00,'1',0x00,
+    '1',0x00,'9',0x00,'0',0x00,'3',0x00,'2',0x00,'2',0x00,
 
     // String index4, Configuration String
 

@@ -90,7 +90,7 @@ static void uart_data_parser(void)
         uart_ack();
         break;
     case PACKET_GET_STATE:
-        recv_buff[0] = CHARGING;
+        recv_buff[0] = (CHARGING == 0); //充电状态TP4057的CHARGING脚为下拉
         uart_send(PACKET_CHARGING, recv_buff, 1);
         break;
     }
