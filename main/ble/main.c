@@ -448,7 +448,6 @@ static void scheduler_init(void)
  */
 static void buttons_leds_init(void)
 {
-    keyboard_setup();
     led_init();
 }
 
@@ -513,7 +512,8 @@ int main(void)
     // Initialize.
     // app_trace_init();
     timers_init();
-    buttons_leds_init();
+    keyboard_setup(); //仅调用matrix_setup();
+    buttons_leds_init(); //仅调动leds_init();
     ble_stack_init();
     scheduler_init();
 

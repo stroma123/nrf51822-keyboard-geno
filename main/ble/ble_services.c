@@ -570,11 +570,11 @@ void ble_services_init(bool erase_bond)
     gap_params_init();
     advertising_init();
     conn_params_init();
-
     dis_init();
 #ifdef BLE_DFU_APP_SUPPORT
     dfu_init();
 #endif // BLE_DFU_APP_SUPPORT
+	  conn_params_init();
 }
 
 void ble_services_evt_dispatch(ble_evt_t* p_ble_evt)
