@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>nRF51422_xxAC</Device>
           <Vendor>Nordic Semiconductor</Vendor>
-          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.2.0</PackID>
-          <PackURL>http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
+          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.17.0</PackID>
+          <PackURL>http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
           <Cpu>IROM(0x00000000,0x40000) IRAM(0x20000000,0x8000) CPUTYPE("Cortex-M0") CLOCK(16000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -1109,6 +1109,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>command.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\keyboard\command.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3486,11 +3491,6 @@
                 </FileArmAds>
               </FileOption>
             </File>
-            <File>
-              <FileName>command.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tmk\tmk_core\common\command.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -3650,8 +3650,8 @@
         <TargetCommonOption>
           <Device>nRF51422_xxAC</Device>
           <Vendor>Nordic Semiconductor</Vendor>
-          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.2.0</PackID>
-          <PackURL>http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
+          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.17.0</PackID>
+          <PackURL>http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
           <Cpu>IROM(0x00000000,0x40000) IRAM(0x20000000,0x8000) CPUTYPE("Cortex-M0") CLOCK(16000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -4283,6 +4283,11 @@
               <FileName>uart_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\keyboard\uart_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>command.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\keyboard\command.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5964,11 +5969,6 @@
               <FileName>bootmagic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\tmk\tmk_core\common\bootmagic.c</FilePath>
-            </File>
-            <File>
-              <FileName>command.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tmk\tmk_core\common\command.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6762,6 +6762,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\keyboard\uart_driver.c</FilePath>
             </File>
+            <File>
+              <FileName>command.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\keyboard\command.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -8391,11 +8396,6 @@
               <FileName>bootmagic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\tmk\tmk_core\common\bootmagic.c</FilePath>
-            </File>
-            <File>
-              <FileName>command.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tmk\tmk_core\common\command.c</FilePath>
             </File>
           </Files>
         </Group>
