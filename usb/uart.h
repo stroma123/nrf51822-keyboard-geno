@@ -17,6 +17,8 @@ typedef enum
     PACKET_SYSTEM,
     PACKET_COMSUMER,
     PACKET_GET_STATE,
+    PACKET_SWITCH_TO_BLE,
+    PACKET_SWITCH_TO_USB,
 
     // uart other
     PACKET_FAIL = 0xc0,

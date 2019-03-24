@@ -423,10 +423,12 @@ void uart_switch_mode()
 {
     switch (uart_current_mode) {
     case UART_MODE_USB:
+        uart_send_packet(PACKET_SWITCH_TO_BLE, NULL, 0);
         uart_current_mode = UART_MODE_BLE_OVERRIDE;
 		    led_set_bit(LED_BIT_BLE, 1);
         break;
     case UART_MODE_BLE_OVERRIDE:
+        uart_send_packet(PACKET_SWITCH_TO_USB, NULL, 0);
         uart_current_mode = UART_MODE_USB;
 		    led_set_bit(LED_BIT_BLE, 0);
         break;
