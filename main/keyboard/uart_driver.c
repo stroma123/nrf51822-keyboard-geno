@@ -88,12 +88,12 @@ void uart_mode_change_invoke()
             break;
         case UART_MODE_USB:
             uart_send_packet(PACKET_GET_STATE, NULL, 0);
-            led_set_bit(LED_BIT_BLE, 0);
+//            led_set_bit(LED_BIT_BLE, 0);
             led_set_bit(LED_BIT_USB, 1);
             break;
         case UART_MODE_BLE_OVERRIDE:
             uart_send_packet(PACKET_GET_STATE, NULL, 0);
-            led_set_bit(LED_BIT_BLE, 1);
+//            led_set_bit(LED_BIT_BLE, 0);
             led_set_bit(LED_BIT_USB, 0);
             break;
         default:
@@ -323,9 +323,9 @@ void uart_task(void* p_context)
             uart_state_change_invoke();
         }
     }
-		if (uart_is_using_usb()){
-			led_set_bit(LED_BIT_BLE, 0);
-		}
+//		if (uart_is_using_usb()){
+//			led_set_bit(LED_BIT_BLE, 0);
+//		}
 }
 
 /**
@@ -425,12 +425,12 @@ void uart_switch_mode()
     case UART_MODE_USB:
         uart_send_packet(PACKET_SWITCH_TO_BLE, NULL, 0);
         uart_current_mode = UART_MODE_BLE_OVERRIDE;
-		    led_set_bit(LED_BIT_BLE, 1);
+//		    led_set_bit(LED_BIT_BLE, 0);
         break;
     case UART_MODE_BLE_OVERRIDE:
         uart_send_packet(PACKET_SWITCH_TO_USB, NULL, 0);
         uart_current_mode = UART_MODE_USB;
-		    led_set_bit(LED_BIT_BLE, 0);
+//		    led_set_bit(LED_BIT_BLE, 0);
         break;
     default:
         break;

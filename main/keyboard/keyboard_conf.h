@@ -50,9 +50,9 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {24,20,29,25,28};
 #define BOOTLOADER_BUTTON           PIN_EXT5
 
 #define LED_CHARGING                PIN_EXT1
-#define LED_FULL                    PIN_EXT2
-#define LED_BLE                     PIN_EXT3
-#define LED_NUM                     PIN_EXT4
+#define LED_FULL                    PIN_EXT4
+#define LED_BLE                     PIN_EXT2
+#define LED_USR1                    PIN_EXT4
 
 #define UPDATE_IN_PROGRESS_LED      PIN_EXT4
 #define ADVERTISING_LED_PIN_NO      PIN_EXT4

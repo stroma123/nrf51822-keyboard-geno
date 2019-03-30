@@ -548,7 +548,7 @@ int main(void)
     nrf_drv_wdt_channel_feed(m_channel_id);
 #endif
     led_flash_all_timer();
-
+    led_set_bit(LED_BIT_BLE,1);
     // Enter main loop.
     for (;;) {
         app_sched_execute();
