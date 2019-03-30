@@ -57,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define MATRIX_ROWS 5
     #define MATRIX_COLS 14
     
-    #define KEYBOARD_DEBUG      //启用此选项，通电后不需要按键就启动蓝牙,但无法通过power_sleep按键手动关机;如果关闭，开启蓝牙需要按Space+U，但可手动关机。
+    //#define KEYBOARD_DEBUG      //启用此选项，通电后不需要按键就启动蓝牙,但无法通过power_sleep按键手动关机;如果关闭，开启蓝牙需要按Space+U，但可手动关机。
     //#define KEYBOARD_REVA       //LOT60-BLE REVA版的电量检测有问题，需要启用此选项屏蔽ADC检测针脚
     
     #define UART_SUPPORT
@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCE    1
+#define DEBOUNCE    2
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -83,11 +83,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BOOTMAGIC_KEY_ERASE_BOND        KC_E /* erase bond info */    //此参数定义启动时擦除蓝牙配对信息的按键（Space+E）
 
 // 键盘省电参数
-#define SLEEP_SLOW_TIMEOUT 120               // 键盘闲置多久后转入慢速扫描模式 (s)
-#define SLEEP_OFF_TIMEOUT 800               // 键盘闲置多久后转入自动关机 (s)
+#define SLEEP_SLOW_TIMEOUT 120                // 键盘闲置多久后转入慢速扫描模式 (s)
+#define SLEEP_OFF_TIMEOUT  900               // 键盘闲置多久后转入自动关机 (s)
 //#define BLE_IDLE_TIMEOUT 60                  // 蓝牙离线后多久转入自动关机 (s)，必须小于SLEEP_OFF_TIMEOUT
-#define KEYBOARD_FAST_SCAN_INTERVAL 8      // 通常模式下，多久扫描一次键盘 (ms)
-#define KEYBOARD_SLOW_SCAN_INTERVAL 100     // 慢速模式下，多久扫描一次键盘 (ms)
+#define KEYBOARD_FAST_SCAN_INTERVAL 8        // 通常模式下，多久扫描一次键盘 (ms)
+#define KEYBOARD_SLOW_SCAN_INTERVAL 100      // 慢速模式下，多久扫描一次键盘 (ms)
 
 
 /**
