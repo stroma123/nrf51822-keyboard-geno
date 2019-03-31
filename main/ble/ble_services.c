@@ -398,10 +398,12 @@ static void on_ble_evt(ble_evt_t* p_ble_evt)
     switch (p_ble_evt->header.evt_id) {
     case BLE_GAP_EVT_CONNECTED:
         m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+        //蓝牙连接，关闭蓝牙指示灯，并启用LED_CAPS，并获取LED_CAPS状态
         led_set_bit(LED_BIT_BLE,0);
         nrf_gpio_cfg_output(LED_CAPS);
         led_status = host_keyboard_leds();
         hook_keyboard_leds_change(led_status);
+        //#####
         break;
 
     case BLE_EVT_TX_COMPLETE:
@@ -410,13 +412,13 @@ static void on_ble_evt(ble_evt_t* p_ble_evt)
 
     case BLE_GAP_EVT_DISCONNECTED:
         m_conn_handle = BLE_CONN_HANDLE_INVALID;
+        //蓝牙断开连接，开启蓝牙指示灯，并复位LED_CAPS针脚
         led_set_bit(LED_BIT_BLE,1);
         if (!uart_is_using_usb()){
             led_set_bit(LED_BIT_CAPS, 0);
             nrf_gpio_cfg_default(LED_CAPS);
         }
-        // Reset m_caps_on variable. Upon reconnect, the HID host will re-send the Output
-        // report containing the Caps lock state.
+        //#####
         break;
 
     case BLE_EVT_USER_MEM_REQUEST:
@@ -588,7 +590,7 @@ void ble_services_init(bool erase_bond)
 #ifdef BLE_DFU_APP_SUPPORT
     dfu_init();
 #endif // BLE_DFU_APP_SUPPORT
-	  conn_params_init();
+    conn_params_init();
 }
 
 void ble_services_evt_dispatch(ble_evt_t* p_ble_evt)
