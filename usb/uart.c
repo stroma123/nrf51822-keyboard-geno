@@ -94,7 +94,15 @@ static void uart_data_parser(void)
         uart_send(PACKET_CHARGING, recv_buff, 1);
         break;
     case PACKET_SWITCH_TO_BLE:
-        //什么也不做
+        recv_buff[0] = 0;
+        recv_buff[1] = 0;
+        recv_buff[2] = 0;
+        recv_buff[3] = 0;
+        recv_buff[4] = 0;
+        recv_buff[5] = 0;
+        recv_buff[6] = 0;
+        recv_buff[7] = 0;
+        KeyboardGenericUpload(recv_buff, 8);
         break;
     case PACKET_SWITCH_TO_USB:
         //什么也不做
