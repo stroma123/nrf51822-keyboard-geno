@@ -53,6 +53,12 @@
 #include "report.h"
 #include "uart_driver.h"
 
+#ifdef USE_RC_CLOCK
+    #define LFCLOCK NRF_CLOCK_LFCLKSRC_RC_250_PPM_250MS_CALIBRATION
+#else
+    #define LFCLOCK NRF_CLOCK_LFCLKSRC_XTAL_20_PPM
+#endif
+
 #define KEYBOARD_SCAN_INTERVAL APP_TIMER_TICKS(KEYBOARD_FAST_SCAN_INTERVAL, APP_TIMER_PRESCALER) /**< Keyboard scan interval (ticks). */
 #define KEYBOARD_SCAN_INTERVAL_SLOW APP_TIMER_TICKS(KEYBOARD_SLOW_SCAN_INTERVAL, APP_TIMER_PRESCALER) /**< Keyboard slow scan interval (ticks). */
 #define KEYBOARD_FREE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER) /**< 键盘Tick计时器 */
@@ -414,7 +420,7 @@ static void ble_stack_init(void)
     uint32_t err_code;
 
     // Initialize the SoftDevice handler module.
-    SOFTDEVICE_HANDLER_APPSH_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, true);
+    SOFTDEVICE_HANDLER_APPSH_INIT(LFCLOCK, true);
 
     // Enable BLE stack
     ble_enable_params_t ble_enable_params;

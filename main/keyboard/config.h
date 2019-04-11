@@ -18,12 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#ifdef BLE4100
-#define KEYBOARD_4100
-#elif BLE60
+#ifdef BLE60
 #define KEYBOARD_60
 #else
-#error PLEASE SPECIFIC ONE KEYBOARD, BLE4100 or BLE60
+#error PLEASE SPECIFIC ONE KEYBOARD
 #endif
 
 /* HID Device descriptor parameter */
@@ -33,22 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MANUFACTURER    "Lotlab"
 #define DESCRIPTION     BLE keyboard base t.m.k firmware
 
-#ifdef KEYBOARD_4100
-
-    #define PRODUCT         "BLE4100"
-
-    /* key matrix size */
-    #define MATRIX_ROWS 8
-    #define MATRIX_COLS 14
-
-    /* define if matrix has ghost */
-    /* 启用这个模式说明此键盘没有使用二极管防止冲突，
-     * 将使用另一种上拉下拉方式做按键扫描。 
-     */
-    #define MATRIX_HAS_GHOST
-
-#endif
-
 #ifdef KEYBOARD_60
 
     #define PRODUCT         "GT-BLE60"
@@ -57,12 +39,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define MATRIX_ROWS 5
     #define MATRIX_COLS 14
     
-    //#define KEYBOARD_DEBUG      //启用此选项，通电后不需要按键就启动蓝牙,但无法通过power_sleep按键手动关机;如果关闭，开启蓝牙需要按Space+U，但可手动关机。
-    //#define KEYBOARD_REVA       //LOT60-BLE REVA版的电量检测有问题，需要启用此选项屏蔽ADC检测针脚
+    #define KEYBOARD_DEBUG         //启用此选项，通电后不需要按键就启动蓝牙,但无法通过power_sleep按键手动关机;如果关闭，开启蓝牙需要按Space+U，但可手动关机。
+    #define KEYBOARD_REVB          //键盘硬件版本配置
     
     #define UART_SUPPORT
     //#define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
 #endif
+
+/* 采用内部32K晶振 */
+#define USE_RC_CLOCK
 
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCE    2
