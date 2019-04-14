@@ -4,8 +4,9 @@
 #include "action.h"
 
 enum fn_functions {
-    POWER_SLEEP,
-    SWITCH_DEVICE,
+    AF_POWER_SLEEP,
+    AF_SWITCH_DEVICE,
+    AF_TRICKY_ESC,
 };
 
 #endif
