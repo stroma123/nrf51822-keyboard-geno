@@ -101,24 +101,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 enum action_kind_id {
     /* Key Actions */
-    ACT_MODS            = 0     ,
-    ACT_LMODS           = 0,
-    ACT_RMODS           = 1,
-    ACT_MODS_TAP        = 2,
-    ACT_LMODS_TAP       = 2,
-    ACT_RMODS_TAP       = 3,
+    ACT_MODS            = 0b0000,
+    ACT_LMODS           = 0b0000,
+    ACT_RMODS           = 0b0001,
+    ACT_MODS_TAP        = 0b0010,
+    ACT_LMODS_TAP       = 0b0010,
+    ACT_RMODS_TAP       = 0b0011,
     /* Other Keys */
-    ACT_USAGE           = 4,
-    ACT_MOUSEKEY        = 5,
+    ACT_USAGE           = 0b0100,
+    ACT_MOUSEKEY        = 0b0101,
     /* Layer Actions */
-    ACT_LAYER           = 8,
-    ACT_LAYER_TAP       = 10, /* Layer  0-15 */
-    ACT_LAYER_TAP_EXT   = 11, /* Layer 16-31 */
+    ACT_LAYER           = 0b1000,
+    ACT_LAYER_TAP       = 0b1010, /* Layer  0-15 */
+    ACT_LAYER_TAP_EXT   = 0b1011, /* Layer 16-31 */
     /* Extensions */
-    ACT_MACRO           = 12,
-    ACT_BACKLIGHT       = 13,
-    ACT_COMMAND         = 14,
-    ACT_FUNCTION        = 15
+    ACT_MACRO           = 0b1100,
+    ACT_BACKLIGHT       = 0b1101,
+    ACT_COMMAND         = 0b1110,
+    ACT_FUNCTION        = 0b1111
 };
 
 /* Action Code Struct
