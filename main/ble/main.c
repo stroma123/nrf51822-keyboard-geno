@@ -41,6 +41,7 @@
 #include "ble_services.h"
 
 #include "keyboard.h"
+#include "keyboard_conf.h"
 #include "keyboard_host_driver.h"
 #include "keyboard_led.h"
 #include "keyboard_matrix.h"
@@ -52,6 +53,8 @@
 #include "hook.h"
 #include "report.h"
 #include "uart_driver.h"
+#include "nrf_gpio.h"
+#include "../tmk/tmk_core/common/bootloader.h"
 
 #ifdef USE_RC_CLOCK
     #define LFCLOCK NRF_CLOCK_LFCLKSRC_RC_250_PPM_250MS_CALIBRATION
@@ -65,6 +68,7 @@
 #ifdef WDT_ENABLE
 #define KEYBOARD_WDT_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
 #endif // WDT_ENABLE
+#define BL_BUTTON_INTERVAL APP_TIMER_TICKS(2000, APP_TIMER_PRESCALER)
 //#define BLE_IDLE_INTERVAL APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
@@ -78,6 +82,7 @@ APP_TIMER_DEF(m_keyboard_sleep_timer_id);
 #ifdef WDT_ENABLE
 APP_TIMER_DEF(m_keyboard_wdt_timer_id);
 #endif // WDT_ENABLE
+APP_TIMER_DEF(m_bl_button_timer_id);
 //APP_TIMER_DEF(m_ble_idle_timer_id);
 
 static uint8_t passkey_enter_index = 0;
@@ -123,6 +128,7 @@ static void keyboard_sleep_timeout_handler(void* p_context);
 #ifdef WDT_ENABLE
 static void keyboard_wdt_timeout_handler(void* p_context);
 #endif // WDT_ENABLE
+static void bl_button_handler(void *p_context);
 //static void ble_idle_timeout_handler(void *p_context);
 
 /**@brief 计时器初始化函数
@@ -153,6 +159,11 @@ static void timers_init(void)
         keyboard_wdt_timeout_handler);
     APP_ERROR_CHECK(err_code);
 #endif // WDT_ENABLE
+    err_code = app_timer_create(&m_bl_button_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                bl_button_handler);
+
+    APP_ERROR_CHECK(err_code);
 		/*
     err_code = app_timer_create(&m_ble_idle_timer_id,
                                 APP_TIMER_MODE_REPEATED,
@@ -226,6 +237,21 @@ static void keyboard_sleep_timeout_handler(void* p_context)
         sleep_mode_enter(true);
     }
 }
+
+/**
+ * @brief Bootloader按键处理
+ * 
+ * @param p_context 
+ */
+static void bl_button_handler(void *p_context)
+{
+    
+    if ((nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false)) //如果BL BUTTON输入低电平(短接)，则启动DFU（dfu_start）
+    {
+       bootloader_jump();
+    }
+}
+
 
 /**
  * @brief 蓝牙离线睡眠定时器
@@ -350,6 +376,8 @@ static void timers_start(void)
     err_code = app_timer_start(m_keyboard_wdt_timer_id, KEYBOARD_WDT_INTERVAL, NULL);
     APP_ERROR_CHECK(err_code);
 #endif // WDT_ENABLE
+    err_code = app_timer_start(m_bl_button_timer_id, BL_BUTTON_INTERVAL, NULL);
+    APP_ERROR_CHECK(err_code);
     //err_code = app_timer_start(m_ble_idle_timer_id, BLE_IDLE_INTERVAL, NULL);
     //APP_ERROR_CHECK(err_code);	
 
@@ -457,6 +485,14 @@ static void buttons_leds_init(void)
     led_init();
 }
 
+static void buttons_init(void)
+{
+    nrf_gpio_cfg_sense_input(BOOTLOADER_BUTTON,
+                             NRF_GPIO_PIN_PULLUP, 
+                             NRF_GPIO_PIN_SENSE_LOW);
+
+}
+
 #ifdef WDT_ENABLE
 static void wdt_evt(void) {}
 
@@ -520,6 +556,7 @@ int main(void)
     timers_init();
     keyboard_setup(); //仅调用matrix_setup();
     buttons_leds_init(); //仅调动leds_init();
+    buttons_init();
     ble_stack_init();
     scheduler_init();
 
