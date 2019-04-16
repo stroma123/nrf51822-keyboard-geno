@@ -168,6 +168,7 @@ void process_action(keyrecord_t *record)
                         } else {
                             if (tap_count > 0) {
                                 dprint("MODS_TAP: Tap: unregister_code\n");
+                                wait_ms(10);                 //add by geno
                                 unregister_code(action.key.code);
                             } else {
                                 dprint("MODS_TAP: No tap: add_mods\n");
@@ -298,6 +299,7 @@ void process_action(keyrecord_t *record)
                     } else {
                         if (tap_count > 0) {
                             dprint("KEYMAP_TAP_KEY: Tap: unregister_code\n");
+                            wait_ms(10);                 //add by geno
                             unregister_code(action.layer_tap.code);
                         } else {
                             dprint("KEYMAP_TAP_KEY: No tap: Off on release\n");
