@@ -20,12 +20,12 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     static uint8_t tricky_esc_registered;
     switch (id) {
         case AF_POWER_SLEEP:
-            if (record->event.pressed) {
+            if (!record->event.pressed) {
             sleep_mode_enter(true);
             }
             break;
-        case AF_SWITCH_DEVICE:
-            if (record->event.pressed) {
+        case AF_SWITCH_MODE:
+            if (!record->event.pressed) {
             #ifdef UART_SUPPORT
                 uart_switch_mode();
             #endif

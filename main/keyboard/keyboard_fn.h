@@ -5,7 +5,7 @@
 
 enum fn_functions {
     AF_POWER_SLEEP,
-    AF_SWITCH_DEVICE,
+    AF_SWITCH_MODE,
     AF_TRICKY_ESC,
 };
 
