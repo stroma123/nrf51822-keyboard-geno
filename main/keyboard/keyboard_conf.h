@@ -77,27 +77,28 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {29,25,23,4,3};
 static const uint8_t column_pin_array[MATRIX_COLS] = {30,28,24,22,21,10,11,12,13,14,15,16,17,18};
 static const uint8_t row_pin_array[MATRIX_ROWS] = {29,25,23,4,3};
 
-#define LED_CAPS  5
+
 #define LED_RGB   8
 #define PIN_EXT1  19
 #define PIN_EXT2  20
 #define PIN_EXT3  1
 #define PIN_EXT4  0
-
+#define PIN_EXT5  5
 
 #define UART_TXD 7
 #define UART_RXD 6
 
 #define BOOTLOADER_BUTTON           9
 
-#define LED_CHARGING                PIN_EXT1
-#define LED_FULL                    PIN_EXT4
+#define LED_CAPS                    PIN_EXT4
+#define LED_CHARGING                PIN_EXT1 
+#define LED_FULL                    PIN_EXT3
 #define LED_BLE                     PIN_EXT2
-#define LED_USR1                    PIN_EXT4
+#define LED_USR1                    PIN_EXT5
 
-#define UPDATE_IN_PROGRESS_LED      PIN_EXT4
-#define ADVERTISING_LED_PIN_NO      PIN_EXT4
-#define CONNECTED_LED_PIN_NO        PIN_EXT4
+#define UPDATE_IN_PROGRESS_LED      PIN_EXT5
+#define ADVERTISING_LED_PIN_NO      PIN_EXT5
+#define CONNECTED_LED_PIN_NO        PIN_EXT5
 
 #define LED_POSITIVE
 
