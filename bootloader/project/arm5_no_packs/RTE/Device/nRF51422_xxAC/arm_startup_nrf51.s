@@ -34,7 +34,7 @@
                 IF :DEF: __STACK_SIZE
 Stack_Size      EQU     __STACK_SIZE
                 ELSE
-Stack_Size      EQU     255
+Stack_Size      EQU     2048
                 ENDIF
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
