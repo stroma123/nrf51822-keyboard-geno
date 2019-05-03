@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define KEYBOARD_REVD          //键盘硬件版本配置
     
     #define UART_SUPPORT
-    //#define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
+    #define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
 #endif
 
 /* 采用内部32K晶振 */
@@ -71,7 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SLEEP_SLOW_TIMEOUT 120                // 键盘闲置多久后转入慢速扫描模式 (s)
 #define SLEEP_OFF_TIMEOUT  900               // 键盘闲置多久后转入自动关机 (s)
 //#define BLE_IDLE_TIMEOUT 60                  // 蓝牙离线后多久转入自动关机 (s)，必须小于SLEEP_OFF_TIMEOUT
-#define KEYBOARD_FAST_SCAN_INTERVAL 8        // 通常模式下，多久扫描一次键盘 (ms)
+#define KEYBOARD_FAST_SCAN_INTERVAL 4        // 通常模式下，多久扫描一次键盘 (ms)
 #define KEYBOARD_SLOW_SCAN_INTERVAL 100      // 慢速模式下，多久扫描一次键盘 (ms)
 
 
@@ -90,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* disable debug print */
-//#define NO_DEBUG
+#define NO_DEBUG
 
 /* disable print */
 #define NO_PRINT
@@ -103,7 +103,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_FUNCTION
 
 /* period of tapping(ms) */
-#define TAPPING_TERM    200
+#define TAPPING_TERM    150
 /* tap count needed for toggling a feature */
 #define TAPPING_TOGGLE  3
 /* Oneshot timeout(ms) */
