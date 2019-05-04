@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     #define UART_SUPPORT
     #define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
+    #define WDT_ENABLE           //启用开门狗
 #endif
 
 /* 采用内部32K晶振 */
