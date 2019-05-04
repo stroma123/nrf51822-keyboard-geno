@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef KEYBOARD_60
 
-    #define PRODUCT         "GT-BLE60"
+    #define PRODUCT         "GT BLE60 rev.D"
 
     /* key matrix size */
     #define MATRIX_ROWS 5
