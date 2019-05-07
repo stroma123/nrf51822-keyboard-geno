@@ -343,6 +343,8 @@ void hook_send_keyboard(report_keyboard_t* report)
 void hook_bootmagic()
 {
     bool erase_bond = false;
+
+/* 现在我们不需要Space+U来进行进行开机
     if (!bootmagic_scan_key(BOOTMAGIC_KEY_BOOT)) {
 // Yes, 如果没有按下Space+U，那就不开机。
 #ifdef UART_SUPPORT
@@ -354,6 +356,8 @@ void hook_bootmagic()
 #endif
         }
     }
+*/
+
     if (bootmagic_scan_key(BOOTMAGIC_KEY_ERASE_BOND)) {
         // 按下Space+E，删除所有的绑定信息
         erase_bond = true;
@@ -384,7 +388,7 @@ static void timers_start(void)
     battery_timer_start();
 }
 
-/**@brief Function for putting the chip into sleep mode.
+/**@brief Function for putting the chip into sleep mode(auto).
  *
  * @note This function will not return.
  * 
@@ -394,16 +398,39 @@ void sleep_mode_enter(bool notice)
 {
     uint32_t err_code;
 
-    if (notice)
+    if (notice){
         led_flash_all();
-    else
-        led_off();
+    }
+    led_uninit();
+    matrix_uninit();
     matrix_sleep_prepare();
 #ifdef UART_SUPPORT
     uart_sleep_prepare();
 #endif
 
     // Go to system-off mode (this function will not return; wakeup will cause a reset).
+    err_code = sd_power_system_off();
+    APP_ERROR_CHECK(err_code);
+}
+
+/**@brief Function for putting the chip into sleep mode (manual).
+ *
+ * @note This function will not return.
+ * 
+* @param[in]   esc_wakeup   true：ESC按键唤醒； false：不允许按键唤醒
+ */
+void system_off_mode_enter(bool esc_wakeup)
+{
+    uint32_t err_code;
+	  led_uninit();
+  	matrix_uninit();
+    if(esc_wakeup){
+    wakeup_prepare();
+    }
+#ifdef UART_SUPPORT
+    uart_sleep_prepare();
+#endif
+    
     err_code = sd_power_system_off();
     APP_ERROR_CHECK(err_code);
 }

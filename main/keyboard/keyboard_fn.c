@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "main.h"
+#include "matrix.h"
 #include "uart_driver.h"
 #include "keymap_common.h"
 #include "action_util.h"
@@ -21,7 +22,13 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     switch (id) {
         case AF_POWER_SLEEP:
             if (!record->event.pressed) {
-            sleep_mode_enter(true);
+                //sleep_mode_enter(true);
+                system_off_mode_enter(true);
+            }
+            break;
+        case AF_POWER_OFF:
+            if (!record->event.pressed) {
+                system_off_mode_enter(false);
             }
             break;
         case AF_SWITCH_MODE:

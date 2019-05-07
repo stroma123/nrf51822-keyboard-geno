@@ -100,6 +100,12 @@ static void buttons_init(void)
                              NRF_GPIO_PIN_PULLUP, 
                              NRF_GPIO_PIN_SENSE_LOW);
 
+    nrf_gpio_cfg_sense_input(row_pin_array[0],
+                             NRF_GPIO_PIN_PULLDOWN, 
+                             NRF_GPIO_PIN_SENSE_HIGH);
+
+    nrf_gpio_cfg_output((uint32_t)column_pin_array[0]);
+    nrf_gpio_pin_set((uint32_t)column_pin_array[0]);
 }
 
 
@@ -212,10 +218,11 @@ int main(void)
         scheduler_init();
     }
 
-    dfu_start  = app_reset;
-    dfu_start |= (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false); //如果BL BUTTON输入低电平(短接)，则启动DFU（dfu_start）
+    //如果BL BUTTON和ESC同时按下，则启动DFU（dfu_start）
+    dfu_start = (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false); 
+    dfu_start &= (nrf_gpio_pin_read(row_pin_array[0]) == 1 ? true : false); 
     
-    if (dfu_start || (!bootloader_app_is_valid(DFU_BANK_0_REGION_START)))
+    if (dfu_start || app_reset || (!bootloader_app_is_valid(DFU_BANK_0_REGION_START)))
     {
         LED_SET(UPDATE_IN_PROGRESS_LED);
 

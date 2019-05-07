@@ -170,6 +170,54 @@ void led_init(void)
 }
 
 /**
+ * @brief 释放LED
+ * 
+ */
+void led_uninit(void)
+{
+#ifdef LED_NUM
+    nrf_gpio_cfg_default(LED_NUM);
+#endif
+#ifdef LED_CAPS
+    nrf_gpio_cfg_default(LED_CAPS);
+#endif
+#ifdef LED_SCLK
+    nrf_gpio_cfg_default(LED_SCLK);
+#endif
+#ifdef LED_COMPOSE
+    nrf_gpio_cfg_default(LED_COMPOSE);
+#endif
+#ifdef LED_KANA
+    nrf_gpio_cfg_default(LED_KANA);
+#endif
+#ifdef LED_BLE
+    nrf_gpio_cfg_default(LED_BLE);
+#endif
+#ifdef LED_USB
+    nrf_gpio_cfg_default(LED_USB);
+#endif
+#ifdef LED_CHARGING
+    nrf_gpio_cfg_default(LED_CHARGING);
+#endif
+#ifdef LED_FULL
+    nrf_gpio_cfg_default(LED_FULL);
+#endif
+#ifdef LED_LOW_POWER
+    nrf_gpio_cfg_default(LED_LOW_POWER);
+#endif
+#ifdef LED_USR1
+    nrf_gpio_cfg_default(LED_USR1);
+#endif
+#ifdef LED_USR2
+    nrf_gpio_cfg_default(LED_USR2);
+#endif
+#ifdef LED_USR3
+    nrf_gpio_cfg_default(LED_USR3);
+#endif
+    led_timer_init();
+}
+
+/**
  * @brief 底层设置LED状态
  * 
  * @param num 

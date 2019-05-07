@@ -71,6 +71,21 @@ void matrix_init(void)
 #endif
     }
 }
+
+/**
+* @brief 释放键盘阵列
+ * 
+ */
+void matrix_uninit(void)
+{
+    for (uint_fast8_t i = MATRIX_ROWS; i--;) {
+        nrf_gpio_cfg_default((uint32_t)row_pin_array[i]);
+    }
+    for (uint_fast8_t i = MATRIX_COLS; i--;) {
+        nrf_gpio_cfg_default((uint32_t)column_pin_array[i]);
+    }
+}
+
 /** read all rows */
 static matrix_row_t read_cols(void)
 {
@@ -177,7 +192,7 @@ uint8_t matrix_key_count(void)
 }
 
 /**
- * @brief 阵列准备睡眠
+ * @brief 阵列休眠准备
  * 
  */
 void matrix_sleep_prepare(void)
@@ -190,4 +205,16 @@ void matrix_sleep_prepare(void)
     for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
         nrf_gpio_cfg_sense_input((uint32_t)row_pin_array[i], NRF_GPIO_PIN_PULLDOWN, NRF_GPIO_PIN_SENSE_HIGH);
     }
+}
+
+/**
+ * @brief ESC唤醒按钮休眠准备
+ * 
+ */
+void wakeup_prepare(void)
+{
+    // 这里监听第一个按键(ESC)作为唤醒按键
+        nrf_gpio_cfg_output((uint32_t)column_pin_array[0]);
+        nrf_gpio_pin_set((uint32_t)column_pin_array[0]);
+        nrf_gpio_cfg_sense_input((uint32_t)row_pin_array[0], NRF_GPIO_PIN_PULLDOWN, NRF_GPIO_PIN_SENSE_HIGH);
 }

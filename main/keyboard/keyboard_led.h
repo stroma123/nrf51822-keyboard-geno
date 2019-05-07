@@ -71,6 +71,11 @@ void led_powersave_mode(bool powersave);
  */
 void led_init(void);
 /**
+ * @brief 释放LED
+ * 
+ */
+void led_uninit(void);
+/**
  * @brief 关闭所有LED
  * 
  */
