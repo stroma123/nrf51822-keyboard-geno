@@ -24,9 +24,9 @@
 
 后面个人采用E73-2G4M04S1D与RF-BM-ND01这个蓝牙模块重新设计了个人的60%键盘：GT-BLE60 (注：此分支不再适合Lot60-BLE)
 
-硬件部分采用NRF51822作为键盘主控、蓝牙模块。CH552T（或CH554T）通过UART和NRF51822通讯，实现USB模块。详细硬件列表可以参看BOM清单
+硬件部分采用NRF51822作为键盘主控、蓝牙模块。CH552T（或CH554T）通过UART和NRF51822通讯，实现USB模块。整个BOM清单详见[表格](https://github.com/genokolar/GT_BLE60_Keyboard_PCB/blob/master/rev.d/keyboard_BOM.csv)(以60%键盘为例，部分元件需要根据轴的个数确定数量） 
 
-<img alt="Keyboard图片" src="https://notes.glab.online/img/ble60.pcb2.jpg" width="60%" />
+<img alt="Keyboard图片" src="https://notes.glab.online/img/keyboard.jpg" width="60%" />
 
 ## 编译
 
@@ -48,17 +48,18 @@
 
 ## 键盘使用说明  
 
--  **开机按键：SPACE+U** - 模式一：每次自动休眠或手动休眠后按下SPACE+U方可开机。模式二：键盘仅可以自动休眠，无法手动休眠，休眠后按任意键唤醒键盘。
-  
--  **清空蓝牙绑定信息按键：SPACE+E** - 每次休眠后唤醒同时按SPACE+E可以清空蓝牙绑定信息。操作方式为休眠唤醒或开机后立即按下SPACE+E；
-  
--  **切换连接模式按键：Fn2+TAB** - 在通过USB和蓝牙同时连接一台设备（也可通过USB连接一台设备、蓝牙连接另一台设备）的情况下，按Fn2+TAB可以切换连接模式。如未同时使用USB模式和蓝牙模式，此按键无效。*注:GT-BLE60默认将APP/MENU键设定为Fn2键,可通过配例自由设定更改*
-  
--  **休眠按键：Fn2+ESC** - 按Fn2+ESC键可以直接进入休眠模式，再按SPACE+U进行开机。如果是任意键唤醒模式，无法通过按击Fn2+ESC手动进入休眠模式。
+-  **休眠按键：Fn2+ESC** - 15分钟不按键自动休眠，自动休眠后可按任意键唤醒；按Fn2+ESC键可以手动进入休眠模式，手动休眠后只能按ESC键（_第一个按钮_）才可以唤醒。
+- *注:GT-BLE60默认将APP/MENU键设定为Fn2键,可通过配例自由设定更改*
 
--  **清空Keymap自定义配例：SPACE+BACKSPACE** -  每次休眠后唤醒或开机同时按SPACE+BACKSPACE可以清空自定义配例信息。如果出现按键错乱，也可以采用此键恢复初始配例。其余BOOTMAGIC键参考TMK，是基本一样的。
+-  **关机按钮：Fn2+Backspace** - 按Fn2+Backspace键可以手动进入关机模式，关机后需要按背部的Bootloader按钮才可重新开机。
+  
+-  **清空蓝牙绑定信息按键：SPACE+E** - 每次唤醒或开机同时立即按SPACE+E可以清空蓝牙绑定信息。
+  
+-  **切换连接模式按键：Fn2+TAB** - 在通过USB和蓝牙同时连接一台设备（也可通过USB连接一台设备、蓝牙连接另一台设备）的情况下，按Fn2+TAB可以切换连接模式。如未同时使用USB模式和蓝牙模式，此按键无效。
 
-- **切换默认层** - 每次休眠后唤醒通过同时按住SPACE+0、SPACE+1，切换第0层或第1层为默认层。默认配列中第0层启用了二合一按键作为方向键，第1层中未启用二合一方向键，启用了二合一按键作为Menu键。详细参看源码配例文件。此默认层设定将存储，重启或者休眠后唤醒都会恢复你设置的默认层。
+-  **清空Keymap自定义配例：SPACE+BACKSPACE** -  每次唤醒或开机同时按SPACE+BACKSPACE可以清空自定义配例信息。如果出现按键错乱，也可以采用此键恢复初始配例。其余BOOTMAGIC键参考TMK，是基本一样的。
+
+- **切换默认层** - 每次唤醒或开机通过同时按住SPACE+0、SPACE+1，切换第0层或第1层为默认层。默认配列中第0层启用了二合一按键作为方向键，第1层中未启用二合一方向键，启用了二合一按键作为Menu键。详细参看源码配例文件。此默认层设定将存储，重启或者休眠后唤醒都会恢复你设置的默认层。
 
 - **切换临时默认层** - 通过同时按住Lshift+Rshift不放，按0、1，切第0层或第1层为默认层。此临时默认层不做记录，重启或者休眠后唤醒都会恢复第0层为默认层。   
   
@@ -66,13 +67,22 @@
 
 -  **关于蓝牙通讯** - 蓝牙通讯上，延迟基本不存在，通过KeyboardTest测试出来的延迟，蓝牙模式下单按大约是120ms，双按键大概是2ms，USB模式下单按键大约是135ms，双按键大约是2ms（个人认为这个测试数据仅供参考，并不一定科学，因为居然比AKKO 3108的数据还好 ））。由于是低功耗，实测有效使用距离是5米内。耗电也和蓝牙信号有关，信号越好，耗电越低。
   
--  **相关参数的设定** - 考虑到耗电问题，正常键盘扫描按键输入为8ms一次，回报率为125Mhz;如果两分钟不按键转入慢速扫描，100ms一次，当有按键按下，又自动转入正常扫描速度10ms一次；如果15分钟无按键行为将自动转入休眠模式，此时要重新启用键盘，只需要SPACE+U（或任意键）就可唤醒，唤醒动作后约1-2s可以正常输入。
+-  **相关参数的设定** - 考虑到耗电问题，正常键盘扫描按键输入为4ms一次，回报率为250Mhz;如果两分钟不按键转入慢速扫描，100ms一次，当有按键按下，又自动转入正常扫描速度4ms一次；如果15分钟无按键行为将自动转入休眠模式，此时要重新启用键盘，只需要按任意键就可唤醒，唤醒动作后约1-2s可以正常输入。
 
 - **默认按键设定**
 - 默认按键共有4层，1、2层是不同的全局按键设定，3、4层是功能按键设定。[查看默认按键设定](https://notes.glab.online/#/posts/9)。
+
 - **自定义按键**
 
-- 自定义按键采用Tkg网页+配例下载工具的方式实现：通过网站（因为tkg.io官网没支持，我自己建立了一个：[kb.glab.online](http://kb.glab.online)）配置好按键，然后下载keymap.eep文件，通过专门的刷配例软件[KeymapDownloader.exe](https://github.com/genokolar/nrf51822-keyboard/releases/download/20190416/KeymapDownloader.exe)刷入蓝牙芯片。
+- 自定义按键采用Tkg网页+配例下载工具的方式实现：通过网站（因为tkg.io官网没支持，我自己建立了一个：[kb.glab.online](http://kb.glab.online)）配置好按键，然后下载keymap.eep文件，通过专门的刷配例软件[KeymapDownloader.exe](https://github.com/genokolar/nrf51822-keyboard/releases/download/20190416/KeymapDownloader.exe)刷入蓝牙芯片。如下图
+
+<img alt="TKG图片" src="/img/TKG.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
+
+<img alt="配例下载" src="/img/keymapdownload.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
+
+- **DFU空中升级**
+
+- 除了初次烧录固件需要jlink外，后续升级固件可以通过手机蓝牙连接键盘，通过DFU模式更新固件。 [点击查看详细升级方法](https://notes.glab.online/#/posts/7)
 
 ## PCB电路
 
