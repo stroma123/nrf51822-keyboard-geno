@@ -76,9 +76,9 @@
 
 - 自定义按键采用Tkg网页+配例下载工具的方式实现：通过网站（因为tkg.io官网没支持，我自己建立了一个：[kb.glab.online](http://kb.glab.online)）配置好按键，然后下载keymap.eep文件，通过专门的刷配例软件[KeymapDownloader.exe](https://github.com/genokolar/nrf51822-keyboard/releases/download/20190416/KeymapDownloader.exe)刷入蓝牙芯片。如下图
 
-<img alt="TKG图片" src="/img/TKG.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
+<img alt="TKG图片" src="https://notes.glab.online/img/TKG.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
 
-<img alt="配例下载" src="/img/keymapdownload.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
+<img alt="配例下载" src="https://notes.glab.online/img/keymapdownload.png" width="60%" style="vertical-align:middle;display:table; text-align:center"/>
 
 - **DFU空中升级**
 
