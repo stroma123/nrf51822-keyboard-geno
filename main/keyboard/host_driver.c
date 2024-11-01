@@ -12,11 +12,11 @@
 #include "custom_hook.h"
 #include "uart_driver.h"
 
-uint8_t keyboard_leds(void);
-void send_keyboard(report_keyboard_t* report);
-void send_mouse(report_mouse_t* report);
-void send_system(uint16_t data);
-void send_consumer(uint16_t data);
+static uint8_t keyboard_leds(void);
+static void send_keyboard(report_keyboard_t* report);
+static void send_mouse(report_mouse_t* report);
+static void send_system(uint16_t data);
+static void send_consumer(uint16_t data);
 
 host_driver_t driver = {
     keyboard_leds,

@@ -15,10 +15,10 @@ bool realIsInit = false;
 pstorage_handle_t pstorage_base_block_id;
 pstorage_handle_t block_handle;
 
-void config_pstorage_init(void);
-void config_write(void);
-void config_read(void);
-void config_update(void);
+static void config_pstorage_init(void);
+static void config_write(void);
+static void config_read(void);
+static void config_update(void);
 
 static uint8_t config_buffer[8] __attribute__((aligned(4))) = { EECONFIG_MAGIC_NUMBER >> 8, EECONFIG_MAGIC_NUMBER % 0x100, 0, 0, 0, 0, 0, 0 };
 

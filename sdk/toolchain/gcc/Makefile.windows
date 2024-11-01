@@ -4,7 +4,8 @@ else
 	PROGFILES := C:/Program Files (x86)
 endif
 
-GNU_INSTALL_ROOT := C:/Program Files (x86)/GNU Tools ARM Embedded/4.9 2015q3
-GNU_VERSION := 4.9.3
-GNU_PREFIX := arm-none-eabi
+# Note these vareables are expected to be set in the environment beforehand (see setenv.bat)
+GNU_INSTALL_ROOT ?=D:/test/nrf51/tools/gcc-arm-none-eabi-6-2017-q1-update-win32
+GNU_VERSION ?=6.3.1
+GNU_PREFIX ?=arm-none-eabi
 

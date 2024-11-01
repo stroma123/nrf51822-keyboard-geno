@@ -1,11 +1,18 @@
-PROJECT_NAME := dfu_dual_bank_ble_s110_pca10028
+#PROJECT_NAME := dfu_dual_bank_ble_s110_pca10028
+
+# Note: OPENOCD_PATH, GCC_PATH, GNU_INSTALL_ROOT, GNU_VERSION and GNU_PREFIX
+# variables are expected to be pre-set in the environment
+OPENOCD_PATH       ?= D:/nrf51822/OpenOCD/0.10.0-201601101000-dev/bin
+OPENOCD_EXECUTABLE := openocd.exe
 
 export OUTPUT_FILENAME
 #MAKEFILE_NAME := $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
 MAKEFILE_NAME := $(MAKEFILE_LIST)
 MAKEFILE_DIR := $(dir $(MAKEFILE_NAME) ) 
 
-TEMPLATE_PATH = ../../../../../../../components/toolchain/gcc
+NRFSDK_DIR = ../../../sdk
+SOURCE_DIR = ../..
+TEMPLATE_PATH = $(NRFSDK_DIR)/toolchain/gcc
 ifeq ($(OS),Windows_NT)
 include $(TEMPLATE_PATH)/Makefile.windows
 else
@@ -37,55 +44,42 @@ remduplicates = $(strip $(if $1,$(firstword $1) $(call remduplicates,$(filter-ou
 
 #source common to all targets
 C_SOURCE_FILES += \
-$(abspath ../../../../../../../components/libraries/util/app_error.c) \
-$(abspath ../../../../../../../components/libraries/scheduler/app_scheduler.c) \
-$(abspath ../../../../../../../components/libraries/timer/app_timer.c) \
-$(abspath ../../../../../../../components/libraries/timer/app_timer_appsh.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/bootloader.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/bootloader_settings.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/bootloader_util.c) \
-$(abspath ../../../../../../../components/libraries/crc16/crc16.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/dfu_dual_bank.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/dfu_init_template.c) \
-$(abspath ../../../../../../../components/libraries/bootloader_dfu/dfu_transport_ble.c) \
-$(abspath ../../../../../../../components/libraries/hci/hci_mem_pool.c) \
-$(abspath ../../../../../../../components/libraries/util/nrf_assert.c) \
-$(abspath ../../../../../../../components/drivers_nrf/delay/nrf_delay.c) \
-$(abspath ../../../../../../../components/drivers_nrf/pstorage/pstorage_raw.c) \
-$(abspath ../../../dfu_ble_svc.c) \
-$(abspath ../../../main.c) \
-$(abspath ../../../../../../../components/ble/common/ble_advdata.c) \
-$(abspath ../../../../../../../components/ble/common/ble_conn_params.c) \
-$(abspath ../../../../../../../components/ble/ble_services/ble_dfu/ble_dfu.c) \
-$(abspath ../../../../../../../components/ble/common/ble_srv_common.c) \
-$(abspath ../../../../../../../components/toolchain/system_nrf51.c) \
-$(abspath ../../../../../../../components/softdevice/common/softdevice_handler/softdevice_handler.c) \
-$(abspath ../../../../../../../components/softdevice/common/softdevice_handler/softdevice_handler_appsh.c) \
+$(abspath $(NRFSDK_DIR)/app_error.c) \
+$(abspath $(NRFSDK_DIR)/app_scheduler.c) \
+$(abspath $(NRFSDK_DIR)/app_timer.c) \
+$(abspath $(NRFSDK_DIR)/app_timer_appsh.c) \
+$(abspath $(NRFSDK_DIR)/bootloader.c) \
+$(abspath $(NRFSDK_DIR)/bootloader_settings.c) \
+$(abspath $(NRFSDK_DIR)/bootloader_util.c) \
+$(abspath $(NRFSDK_DIR)/crc16.c) \
+$(abspath $(NRFSDK_DIR)/dfu_dual_bank.c) \
+$(abspath $(NRFSDK_DIR)/dfu_init_template.c) \
+$(abspath $(NRFSDK_DIR)/dfu_transport_ble.c) \
+$(abspath $(NRFSDK_DIR)/hci_mem_pool.c) \
+$(abspath $(NRFSDK_DIR)/nrf_assert.c) \
+$(abspath $(NRFSDK_DIR)/nrf_delay.c) \
+$(abspath $(NRFSDK_DIR)/pstorage_raw.c) \
+$(abspath $(SOURCE_DIR)/dfu_ble_svc.c) \
+$(abspath $(SOURCE_DIR)/main.c) \
+$(abspath $(NRFSDK_DIR)/ble_advdata.c) \
+$(abspath $(NRFSDK_DIR)/ble_conn_params.c) \
+$(abspath $(NRFSDK_DIR)/ble_dfu.c) \
+$(abspath $(NRFSDK_DIR)/ble_srv_common.c) \
+$(abspath $(NRFSDK_DIR)/toolchain/system_nrf51.c) \
+$(abspath $(NRFSDK_DIR)/softdevice_handler.c) \
+$(abspath $(NRFSDK_DIR)/softdevice_handler_appsh.c) \
 
 #assembly files common to all targets
-ASM_SOURCE_FILES  = $(abspath ../../../../../../../components/toolchain/gcc/gcc_startup_nrf51.s)
+ASM_SOURCE_FILES  = $(abspath $(NRFSDK_DIR)/toolchain/gcc/gcc_startup_nrf51.s)
 
 #includes common to all targets
-INC_PATHS  = -I$(abspath ../../../config/dfu_dual_bank_ble_s110_pca10028)
-INC_PATHS += -I$(abspath ../../../config)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/util)
-INC_PATHS += -I$(abspath ../../../../../../../components/toolchain/gcc)
-INC_PATHS += -I$(abspath ../../../../../../../components/toolchain)
-INC_PATHS += -I$(abspath ../../../../../../../components/ble/common)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/scheduler)
-INC_PATHS += -I$(abspath ../../../../../../../components/softdevice/s110/headers)
-INC_PATHS += -I$(abspath ../../../../../../bsp)
-INC_PATHS += -I$(abspath ../../../../../../../components/drivers_nrf/pstorage)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/bootloader_dfu/ble_transport)
-INC_PATHS += -I$(abspath ../../../../../../../components/softdevice/common/softdevice_handler)
-INC_PATHS += -I$(abspath ../../../../../../../components/device)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/hci)
-INC_PATHS += -I$(abspath ../../../../../../../components/drivers_nrf/delay)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/crc16)
-INC_PATHS += -I$(abspath ../../../../../../../components/ble/ble_services/ble_dfu)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/timer)
-INC_PATHS += -I$(abspath ../../../../../../../components/drivers_nrf/hal)
-INC_PATHS += -I$(abspath ../../../../../../../components/libraries/bootloader_dfu)
+#-I ../../config -I ../../../sdk -I ../../../main/keyboard
+INC_PATHS  = -I$(abspath $(SOURCE_DIR)/config)
+INC_PATHS += -I$(abspath $(SOURCE_DIR))
+INC_PATHS += -I$(abspath $(NRFSDK_DIR))
+INC_PATHS += -I$(abspath $(NRFSDK_DIR)/toolchain)
+INC_PATHS += -I$(abspath $(NRFSDK_DIR)/toolchain/gcc)
+INC_PATHS += -I$(abspath ../../../main/keyboard)
 
 OBJECT_DIRECTORY = _build
 LISTING_DIRECTORY = $(OBJECT_DIRECTORY)
@@ -96,16 +90,20 @@ BUILD_DIRECTORIES := $(sort $(OBJECT_DIRECTORY) $(OUTPUT_BINARY_DIRECTORY) $(LIS
 
 #flags common to all targets
 CFLAGS  = -DSWI_DISABLE0
-CFLAGS += -DBOARD_PCA10028
+CFLAGS += -DBOARD_CUSTOM
 CFLAGS += -DSOFTDEVICE_PRESENT
 CFLAGS += -DNRF51
 CFLAGS += -DS110
 CFLAGS += -D__HEAP_SIZE=0
+CFLAGS += -D__STACK_SIZE=2048
 CFLAGS += -DBLE_STACK_SUPPORT_REQD
 CFLAGS += -DBSP_DEFINES_ONLY
+CFLAGS += -DBLE60
 CFLAGS += -mcpu=cortex-m0
 CFLAGS += -mthumb -mabi=aapcs --std=gnu99
-CFLAGS += -Wall -Werror -O3
+CFLAGS += -Wall -Werror -Os
+#use link time optimization
+CFLAGS += -flto
 CFLAGS += -mfloat-abi=soft
 # keep every function in separate section. This will allow linker to dump unused functions
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
@@ -123,25 +121,30 @@ LDFLAGS += --specs=nano.specs -lc -lnosys
 # Assembler flags
 ASMFLAGS += -x assembler-with-cpp
 ASMFLAGS += -DSWI_DISABLE0
-ASMFLAGS += -DBOARD_PCA10028
+ASMFLAGS += -DBOARD_CUSTOM
 ASMFLAGS += -DSOFTDEVICE_PRESENT
 ASMFLAGS += -DNRF51
 ASMFLAGS += -DS110
 ASMFLAGS += -D__HEAP_SIZE=0
+ASMFLAGS += -D__STACK_SIZE=2048
 ASMFLAGS += -DBLE_STACK_SUPPORT_REQD
 ASMFLAGS += -DBSP_DEFINES_ONLY
 #default target - first one defined
-default: clean nrf51422_xxac
+default: clean ble60_bootloader
 
 #building all targets
 all: clean
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e cleanobj
-	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e nrf51422_xxac
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e ble60_bootloader
 
 #target for printing all targets
 help:
 	@echo following targets are available:
-	@echo 	nrf51422_xxac
+	@echo 	ble60_bootloader
+	@echo 	flash_erase
+	@echo 	flash_softdevice
+	@echo 	flash_bootloader
+	@echo 	reset_target
 
 
 C_SOURCE_FILE_NAMES = $(notdir $(C_SOURCE_FILES))
@@ -157,9 +160,9 @@ vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
-nrf51422_xxac: OUTPUT_FILENAME := nrf51422_xxac
-nrf51422_xxac: LINKER_SCRIPT=ble_app_hids_keyboard_gcc_nrf51.ld
-nrf51422_xxac: $(BUILD_DIRECTORIES) $(OBJECTS)
+ble60_bootloader: OUTPUT_FILENAME := ble60_bootloader
+ble60_bootloader: LINKER_SCRIPT=dfu_gcc_nrf51.ld
+ble60_bootloader: $(BUILD_DIRECTORIES) $(OBJECTS)
 	@echo Linking target: $(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e finalize
@@ -223,4 +226,23 @@ flash: $(MAKECMDGOALS)
 	nrfjprog --program $(OUTPUT_BINARY_DIRECTORY)/$<.hex -f nrf51  --chiperase
 	nrfjprog --reset
 
+flash_hex:
+	@echo Flashing: $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).hex
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).hex verify reset exit"
+
+flash_erase:
+	@echo Mass erase all flash!
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c "nrf51 mass_erase" -c exit
+
 ## Flash softdevice
+flash_softdevice:
+	@echo Flashing: s110_softdevice.hex
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../sdk/s110_nrf51_8.0.0_softdevice.hex verify reset exit"
+
+reset_target:
+	@echo Resetting...
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset run" -c exit
+
+flash_bootloader: OUTPUT_FILENAME = ble60_bootloader
+flash_bootloader: flash_erase flash_hex flash_softdevice
+
