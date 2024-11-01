@@ -202,7 +202,7 @@ vpath %.s $(ASM_PATHS)
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
 ble60: CFLAGS += -DBLE60
-ble60: OUTPUT_FILENAME = ble60_dfu_s110
+ble60: OUTPUT_FILENAME = ble60_app
 ble60: ble_xx finalize
 
 ble_xx: LINKER_SCRIPT = ble_app_hids_keyboard_gcc_nrf51.ld
@@ -284,7 +284,7 @@ reset_target:
 	@echo Resetting...
 	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset run" -c exit
 
-flash_ble60: OUTPUT_FILENAME = ble60_dfu_s110
+flash_ble60: OUTPUT_FILENAME = ble60_app
 flash_ble60: flash_hex
 
 flash_bootloader:
