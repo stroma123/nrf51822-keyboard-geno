@@ -168,24 +168,27 @@ ASMFLAGS += -DNRF51
 ASMFLAGS += -DBLE_STACK_SUPPORT_REQD
 ASMFLAGS += -DBLE_DFU_APP_SUPPORT
 ASMFLAGS += -D__HEAP_SIZE=0
+
 #default target - first one defined
-default: clean ble400
+default: clean modelm
 
 #building all targets
 all: clean
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e cleanobj
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e ble60
 
 #target for printing all targets
 help:
 	@echo "following targets are available:"
+	@echo "    modelm"
 	@echo "    ble60"
 	@echo "    flash_erase"
 	@echo "    flash_softdevice"
-	@echo "    flash_ble60"
+	@echo "    flash_modelm"
 	@echo "    flash_bootloader"
-	@echo "    fflash_bootloader_keil"
-	@echo "    flash_ble60_keil"
+	@echo "    flash_bootloader_keil"
+	@echo "    flash_modelm_keil"
 	@echo "    reset_target"
 
 C_SOURCE_FILE_NAMES = $(notdir $(C_SOURCE_FILES))
@@ -200,6 +203,10 @@ vpath %.c $(C_PATHS)
 vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
+
+modelm: CFLAGS += -DMODELM
+modelm: OUTPUT_FILENAME = modelm_app
+modelm: ble_xx finalize
 
 ble60: CFLAGS += -DBLE60
 ble60: OUTPUT_FILENAME = ble60_app
@@ -284,15 +291,15 @@ reset_target:
 	@echo Resetting...
 	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset run" -c exit
 
-flash_ble60: OUTPUT_FILENAME = ble60_app
-flash_ble60: flash_hex
+flash_modelm: OUTPUT_FILENAME = modelm_app
+flash_modelm: flash_hex
 
 flash_bootloader:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/armgcc/_build/ble60_bootloader.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/armgcc/_build/modelm_bootloader.hex verify reset exit"
 
 flash_bootloader_keil:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/arm5_no_packs/_build/BLE60_Bootloader.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/arm5_no_packs/_build/modelm_bootloader.hex verify reset exit"
 
-flash_ble60_keil:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../arm5_no_packs/_build/BLE60_APP.hex verify reset exit"
+flash_modelm_keil:
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../arm5_no_packs/_build/modelm-ble.hex verify reset exit"
 

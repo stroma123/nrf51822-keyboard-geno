@@ -2,7 +2,7 @@
 
 # Note: OPENOCD_PATH, GCC_PATH, GNU_INSTALL_ROOT, GNU_VERSION and GNU_PREFIX
 # variables are expected to be pre-set in the environment
-OPENOCD_PATH       ?= D:/nrf51822/OpenOCD/0.10.0-201601101000-dev/bin
+# OPENOCD_PATH       ?= D:/nrf51822/OpenOCD/0.10.0-201601101000-dev/bin
 OPENOCD_EXECUTABLE := openocd.exe
 
 export OUTPUT_FILENAME
@@ -130,16 +130,18 @@ ASMFLAGS += -D__STACK_SIZE=2048
 ASMFLAGS += -DBLE_STACK_SUPPORT_REQD
 ASMFLAGS += -DBSP_DEFINES_ONLY
 #default target - first one defined
-default: clean ble60_bootloader
+default: clean modelm_bootloader
 
 #building all targets
 all: clean
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e cleanobj
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm_bootloader
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e ble60_bootloader
 
 #target for printing all targets
 help:
 	@echo following targets are available:
+	@echo 	modelm_bootloader
 	@echo 	ble60_bootloader
 	@echo 	flash_erase
 	@echo 	flash_softdevice
@@ -160,9 +162,14 @@ vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
+modelm_bootloader: OUTPUT_FILENAME := modelm_bootloader
+modelm_bootloader: ble_bootloader
+
 ble60_bootloader: OUTPUT_FILENAME := ble60_bootloader
-ble60_bootloader: LINKER_SCRIPT=dfu_gcc_nrf51.ld
-ble60_bootloader: $(BUILD_DIRECTORIES) $(OBJECTS)
+ble60_bootloader: ble_bootloader
+
+ble_bootloader: LINKER_SCRIPT=dfu_gcc_nrf51.ld
+ble_bootloader: $(BUILD_DIRECTORIES) $(OBJECTS)
 	@echo Linking target: $(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e finalize
@@ -243,6 +250,6 @@ reset_target:
 	@echo Resetting...
 	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset run" -c exit
 
-flash_bootloader: OUTPUT_FILENAME = ble60_bootloader
+flash_bootloader: OUTPUT_FILENAME = modelm_bootloader
 flash_bootloader: flash_erase flash_hex flash_softdevice
 
