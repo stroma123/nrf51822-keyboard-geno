@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef BLE60
 #define KEYBOARD_60
+#elif defined MODELM
+#define KEYBOARD_MODELM
 #else
 #error PLEASE SPECIFIC ONE KEYBOARD
 #endif
@@ -45,6 +47,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define BLE_LINK_SEC         //启用此选项，蓝牙配对时要求输入密码,并启用MITM
     #define WDT_ENABLE           //启用看门狗
 #endif
+
+#ifdef KEYBOARD_MODELM
+
+    #define PRODUCT         "Model M BLE"
+
+    /* key matrix size */
+    #define MATRIX_ROWS 8
+    #define MATRIX_COLS 16
+
+    #define KEYBOARD_REV0           // PCB revision
+    
+    #define UART_SUPPORT
+    #define BLE_LINK_SEC            // require passwerd when pairing and enable MITM
+    #define WDT_ENABLE              // watchdog enable
+#endif
+
 
 /* 采用内部32K晶振 */
 #define USE_RC_CLOCK
