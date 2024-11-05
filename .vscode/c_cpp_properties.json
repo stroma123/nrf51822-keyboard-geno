@@ -1,0 +1,20 @@
+{
+    "env": {
+        "myIncludePath": [
+            "${workspaceFolder}\\main\\config",
+            "${workspaceFolder}\\main\\ble",
+            "${workspaceFolder}\\sdk",
+            "${workspaceFolder}\\tmk\\tmk_core\\common"
+        ],
+        "myDefines": ["DEBUG"]
+    },
+    "configurations": [
+        {
+            "name": "Windows armgcc modelm",
+            "compilerPath": "${workspaceFolder}\\..\\tools\\gcc-arm-none-eabi-6-2017-q1-update-win32\\bin\\arm-none-eabi-gcc.exe",
+            "includePath": ["${myIncludePath}", "${default}"],
+            "defines": ["${myDefines}", "MODELM=1"]
+        }
+    ],
+    "version": 4
+}

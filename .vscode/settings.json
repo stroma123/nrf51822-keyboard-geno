@@ -1,0 +1,14 @@
+{
+    "makefile.configurations": [
+        {
+            "name": "Default",
+            "makeArgs": []
+        },
+        {
+            "name": "Print make version",
+            "makeArgs": ["--version"]
+        }
+    ],
+    "makefile.makePath": "${workspaceFolder}\\..\\tools\\cli\\make",
+    "makefile.makeDirectory": "${workspaceFolder}\\main\\project\\armgcc\\"
+}
