@@ -2,6 +2,8 @@ OUTPUT_DIR = _build
 
 CC := sdcc
 CFLAGS := -mmcs51 --model-small --std-c11 -o $(OUTPUT_DIR)/ --opt-code-size
+# to suppress 'warning 283: function declarator with no prototype' warnings
+CFLAGS += --disable-warning 283
 LDFLAGS := --xram-size 1024 --iram-size 256 --code-size 16384 --out-fmt-ihx
 
 LIBS = $(OUTPUT_DIR)/system.rel \
