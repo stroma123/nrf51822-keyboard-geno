@@ -59,7 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define KEYBOARD_REV0           // PCB revision
     
     #define UART_SUPPORT
-    #define BLE_LINK_SEC            // require passwerd when pairing and enable MITM
+    #define BLE_LINK_SEC            // require password when pairing and enable MITM
     #define WDT_ENABLE              // watchdog enable
 #endif
 

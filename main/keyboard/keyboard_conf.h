@@ -120,7 +120,7 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {29,25,23,4,3};
 
 #ifdef KEYBOARD_REV0  // MODEL M PCB REV 0
 #define KEYBOARD_ADC NRF_ADC_CONFIG_INPUT_3
-static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,28,30,0,1,2,3,4,5,6,7};
+static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,29,30,0,1,2,3,4,5,6,7};
 static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 
 
@@ -131,8 +131,8 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 //#define PIN_EXT4  0
 //#define PIN_EXT5  5
 
-#define UART_TXD 18     // shared with LED_SL
-#define UART_RXD 17     // shared with LED_CL
+#define UART_TXD 17     // shared with LED_SL, to CH552T - RXD
+#define UART_RXD 18     // shared with LED_CL, to CH552T - TXD
 
 #define BOOTLOADER_BUTTON           20  // button to GND
 
