@@ -21,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "system.h"
 #include <stdbool.h>
 
-#define CHARGING UCC1
-#define STANDBY UCC2
+#define CHARGING INT1
+#define STANDBY T0
 
 uart_state uart_rx_state;
 static uint8_t len, pos;
