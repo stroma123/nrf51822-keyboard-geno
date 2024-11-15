@@ -64,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 
-/* 采用内部32K晶振 */
+/* Using internal 32K crystal oscillator */
 #define USE_RC_CLOCK
 
 /* Set 0 if debouncing isn't needed */
@@ -81,25 +81,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
 )
 
-// 定义Bootmagic按键
-#define BOOTMAGIC_KEY_BOOT              KC_U /* boot! */            //此参数定义启动时开启蓝牙的按键(Space+U)
-#define BOOTMAGIC_KEY_ERASE_BOND        KC_E /* erase bond info */    //此参数定义启动时擦除蓝牙配对信息的按键（Space+E）
+// Define Bootmagic key
+#define BOOTMAGIC_KEY_BOOT              KC_U /* boot! */            // Defines the key to turn on Bluetooth at boot time (Space+U)
+#define BOOTMAGIC_KEY_ERASE_BOND        KC_E /* erase bond info */  // Defines the key to erase Bluetooth pairing information at boot time (Space+E)
 
-// 键盘省电参数
-#define SLEEP_SLOW_TIMEOUT 120                // 键盘闲置多久后转入慢速扫描模式 (s)
-#define SLEEP_OFF_TIMEOUT  900               // 键盘闲置多久后转入自动关机 (s)
-//#define BLE_IDLE_TIMEOUT 60                  // 蓝牙离线后多久转入自动关机 (s)，必须小于SLEEP_OFF_TIMEOUT
-#define KEYBOARD_FAST_SCAN_INTERVAL 4        // 通常模式下，多久扫描一次键盘 (ms)
-#define KEYBOARD_SLOW_SCAN_INTERVAL 100      // 慢速模式下，多久扫描一次键盘 (ms)
+// Keyboard power saving parameters
+#define SLEEP_SLOW_TIMEOUT 120                  // time to switch to slow scan mode after being idle (s)
+#define SLEEP_OFF_TIMEOUT  900                  // time to automatically shut down after being idle (s)
+//#define BLE_IDLE_TIMEOUT 60                   // time for Bluetooth to automatically shut down after being offline? (s), must be < SLEEP_OFF_TIMEOUT
+#define KEYBOARD_FAST_SCAN_INTERVAL 4           // scan interval in normal mode (ms)
+#define KEYBOARD_SLOW_SCAN_INTERVAL 100         // scan interval in slow mode (ms)
 
 
 /**
- * 在检测到有按键改变后即立刻退出慢速扫描模式，而不是等待完整一轮消抖后再退出。
- * 可能可以缓解慢速扫描模式下第一次按键后响应时间过长的问题。
+ * Exit slow scan mode immediately after detecting a key change, rather than waiting for a full round of debounce.
+ * May alleviate the issue of long response time after the first key press in slow scan mode.
  **/
 #define SLOW_MODE_EARLY_EXIT
 
-// LED自动熄灭时长(ms)，设为0则不自动熄灭
+// LED auto off time (ms), set to 0 to disable
 #define LED_AUTOOFF_TIME 0
 
 /*

@@ -3,6 +3,7 @@
         "myIncludePath": [
             "${workspaceFolder}\\main\\config",
             "${workspaceFolder}\\main\\ble",
+            "${workspaceFolder}\\main\\keyboard",
             "${workspaceFolder}\\sdk",
             "${workspaceFolder}\\tmk\\tmk_core\\common"
         ],
