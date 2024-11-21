@@ -148,6 +148,7 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 #define CONNECTED_LED_PIN_NO        LED_NUML
 
 #define LED_POSITIVE
+#define MATRIX_HAS_GHOST
 #endif  // KEYBOARD_REV0
 
 #ifdef LED_POSITIVE
