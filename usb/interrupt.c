@@ -20,7 +20,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "endpoints.h"
 // #include <stdio.h>
 
-const __code void (*EndpointPacketOutHandler[5])(void) = {
+typedef void (*handler_t)(void);
+
+const __CODE handler_t EndpointPacketOutHandler[5] = {
     USB_OUT_EP0,
     USB_OUT_EP1,
     USB_OUT_EP2,
@@ -28,7 +30,7 @@ const __code void (*EndpointPacketOutHandler[5])(void) = {
     USB_OUT_EP4
 };
 
-const __code void (*EndpointPacketInHandler[5])(void) = {
+const __CODE handler_t EndpointPacketInHandler[5] = {
     USB_IN_EP0,
     USB_IN_EP1,
     USB_IN_EP2,
@@ -36,7 +38,7 @@ const __code void (*EndpointPacketInHandler[5])(void) = {
     USB_IN_EP4
 };
 
-const __code void (*EndpointPacketSetupHandler[5])(void) = {
+const __CODE handler_t EndpointPacketSetupHandler[5] = {
     USB_SETUP_EP0,
     USB_SETUP_EP1,
     USB_SETUP_EP2,
@@ -44,7 +46,7 @@ const __code void (*EndpointPacketSetupHandler[5])(void) = {
     USB_SETUP_EP4
 };
 
-const __code void (*EndpointPacketSofHandler[5])(void) = {
+const __CODE handler_t EndpointPacketSofHandler[5] = {
     USB_SOF_EP0,
     USB_SOF_EP1,
     USB_SOF_EP2,
@@ -54,9 +56,8 @@ const __code void (*EndpointPacketSofHandler[5])(void) = {
 
 /** \brief USB 传输完成中断处理
  */
-static void UsbTransfurEventHandler()
+static void UsbTransferEventHandler()
 {
-
     uint8_t ep = USB_INT_ST & MASK_UIS_ENDP;
 
     switch (USB_INT_ST & MASK_UIS_TOKEN) {
@@ -83,14 +84,21 @@ static void UsbTransfurEventHandler()
  */
 static void UsbBusResetEventHandler()
 {
+    // 总线复位
     UEP0_CTRL = UEP_R_RES_ACK | UEP_T_RES_NAK;
     UEP1_CTRL = bUEP_AUTO_TOG | UEP_R_RES_ACK | UEP_T_RES_NAK;
     UEP2_CTRL = bUEP_AUTO_TOG | UEP_R_RES_ACK | UEP_T_RES_NAK;
     UEP3_CTRL = bUEP_AUTO_TOG | UEP_R_RES_ACK | UEP_T_RES_NAK;
+    UEP4_CTRL = bUEP_AUTO_TOG | UEP_R_RES_ACK | UEP_T_RES_NAK;
     USB_DEV_AD = 0x00;
     UIF_SUSPEND = 0;
     UIF_TRANSFER = 0;
-    UIF_BUS_RST = 0; //清中断标志
+    UIF_BUS_RST = 0; // 清中断标志
+
+    // 重置状态
+    usb_state.is_ready = false;
+    usb_state.protocol = true;
+    usb_state.setup_state = SETUP_IDLE;
 }
 
 /** \brief USB 总线挂起或唤醒事件处理
@@ -113,7 +121,7 @@ void UsbIsr()
 {
     if (UIF_TRANSFER) {
         //USB传输完成标志
-        UsbTransfurEventHandler();
+        UsbTransferEventHandler();
     } else if (UIF_BUS_RST) {
         //设备模式USB总线复位中断
         UsbBusResetEventHandler();

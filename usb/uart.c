@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "usb_comm.h"
 #include "system.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 #define CHARGING INT1
 #define STANDBY T0
@@ -179,19 +180,29 @@ void uart_recv(void)
      * Variable:
      *     len  buf[0] buf[1]  ... Buf[Len-1]
      */
+    uint8_t data = uart_rx();
+#if DEBUG_UART0 && DEBUG_NRF
+//    printf_tiny("%x ", data);
+#endif
     switch (uart_rx_state)
     {
     case STATE_IDLE:
-        len = uart_rx();
+        len = data;
         pos = 0;
         if (len > 0) // Len=0 意味着出错了，别管它
             uart_rx_state = STATE_DATA;
         break;
 
     case STATE_DATA:
-        recv_buff[pos++] = uart_rx();
+        recv_buff[pos++] = data;
         if (pos >= len)
         {
+#if DEBUG_UART0 && DEBUG_NRF
+            putchar('>');
+            PrintHex(recv_buff, len);
+            putchar('\n');
+            putchar('\r');
+#endif
             uart_rx_state = STATE_IDLE;
             uart_arrive_flag = true;
         }
@@ -205,8 +216,20 @@ void uart_send(packet_type type, uint8_t *data, uint8_t len)
     send_type = type;
     uart_tx(len + 1);
     uart_tx(type);
+#if DEBUG_UART0 && DEBUG_NRF
+    putchar('<');
+    printf_tiny("%x ", len + 1);
+    printf_tiny("%x ", type);
+#endif
     while (len--)
     {
+#if DEBUG_UART0 && DEBUG_NRF
+        printf_tiny("%x ", *data);
+#endif
         uart_tx(*(data++));
     }
+#if DEBUG_UART0 && DEBUG_NRF
+    putchar('\n');
+    putchar('\r');
+#endif
 }

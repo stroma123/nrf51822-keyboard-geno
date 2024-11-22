@@ -15,23 +15,25 @@ USB_SOURCE_DIR := ./
 endif
 
 SDCC := sdcc
-#SDCC_CFLAGS := -mmcs51 --model-small --std-c11 -o $(OUTPUT_DIR)/ --opt-code-size
-SDCC_CFLAGS += -mmcs51 --model-small --stack-auto --std-c11 -o $(OUTPUT_DIR)/ --opt-code-size -I .
+SDCC_CFLAGS += -mmcs51 --model-small --stack-auto --std-c11 -o $(OUTPUT_DIR)/ --opt-code-size
 # to suppress 'warning 283: function declarator with no prototype' warnings
 SDCC_CFLAGS += --disable-warning 283
-#SDCC_CFLAGS += -DMODELM
-#SDCC_CFLAGS += -DDEBUG_UART0=1
-#SDCC_CFLAGS += -DDEBUG_NRF=1
-# device to host
-#SDCC_CFLAGS += -DDEBUG_USB_IN=1
-# host to device
-#SDCC_CFLAGS += -DDEBUG_USB_OUT=1
+SDCC_CFLAGS += -DMODELM
 
-#LDFLAGS := --xram-size 1024 --iram-size 256 --code-size 16384 --out-fmt-ihx
+# various debug macros
+#SDCC_CFLAGS += -DDEBUG_UART0=1
+SDCC_CFLAGS += -DDEBUG_NRF=1
+# device to host
+SDCC_CFLAGS += -DDEBUG_USB_IN=1
+# host to device
+SDCC_CFLAGS += -DDEBUG_USB_OUT=1
+
 SDCC_LDFLAGS := --xram-size 1024 --iram-size 256 --code-size 14336 --out-fmt-ihx --xram-loc 0
 
+INC_PATHS += -I .
+INC_PATHS += -I$(abspath $(USB_SOURCE_DIR)/../main/keyboard)
+
 USB_SOURCES := $(USB_SOURCE_DIR)/main.c \
-			   $(USB_SOURCE_DIR)/app_timer.c \
 			   $(USB_SOURCE_DIR)/endpoints.c \
 			   $(USB_SOURCE_DIR)/system.c \
 			   $(USB_SOURCE_DIR)/uart.c \
@@ -79,7 +81,7 @@ $(OUTPUT_IHX): $(LIBS)
 
 $(OBJ_DIR)/%.rel: $(USB_SOURCE_DIR)/%.c $(OBJ_DIR)
 	@echo Compiling usb file: $(notdir $<)
-	@$(SDCC) $(SDCC_CFLAGS) -c $<
+	@$(SDCC) $(SDCC_CFLAGS) $(INC_PATHS) -c $<
 
 .PHONY:clean
 clean:
