@@ -79,7 +79,7 @@ INC_PATHS += -I$(abspath $(SOURCE_DIR))
 INC_PATHS += -I$(abspath $(NRFSDK_DIR))
 INC_PATHS += -I$(abspath $(NRFSDK_DIR)/toolchain)
 INC_PATHS += -I$(abspath $(NRFSDK_DIR)/toolchain/gcc)
-INC_PATHS += -I$(abspath ../../../main/keyboard)
+INC_PATHS += -I$(abspath $(SOURCE_DIR)/../main/keyboard)
 
 OBJECT_DIRECTORY = _build
 LISTING_DIRECTORY = $(OBJECT_DIRECTORY)
@@ -98,7 +98,6 @@ CFLAGS += -D__HEAP_SIZE=0
 CFLAGS += -D__STACK_SIZE=2048
 CFLAGS += -DBLE_STACK_SUPPORT_REQD
 CFLAGS += -DBSP_DEFINES_ONLY
-CFLAGS += -DBLE60
 CFLAGS += -mcpu=cortex-m0
 CFLAGS += -mthumb -mabi=aapcs --std=gnu99
 CFLAGS += -Wall -Werror -Os
@@ -162,9 +161,11 @@ vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
+modelm_bootloader: CFLAGS += -DMODELM
 modelm_bootloader: OUTPUT_FILENAME := modelm_bootloader
 modelm_bootloader: ble_bootloader
 
+ble60_bootloader: CFLAGS += -DBLE60
 ble60_bootloader: OUTPUT_FILENAME := ble60_bootloader
 ble60_bootloader: ble_bootloader
 

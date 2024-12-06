@@ -31,7 +31,7 @@ MEMORY
 SECTIONS
 {
   /* Ensures the bootloader settings are placed at the last flash page. */
-  .bootloaderSettings(NOLOAD) :
+  .bootloaderSettings :
   {
 
   } > BOOTLOADER_SETTINGS
