@@ -119,8 +119,12 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {29,25,23,4,3};
 #ifdef KEYBOARD_MODELM
 
 #ifdef KEYBOARD_REV0  // MODEL M PCB REV 0
+/* 
+ * MODEL M PCB REV 0 has battery voltage sense at P0.19, which is not analog input
+ * For testing, COL10 (P0.02/AN3) is swapped with P0.19
+ */
 #define KEYBOARD_ADC NRF_ADC_CONFIG_INPUT_3
-static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,29,30,0,1,2,3,4,5,6,7};
+static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,29,30,0,1,19,3,4,5,6,7};
 static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 
 

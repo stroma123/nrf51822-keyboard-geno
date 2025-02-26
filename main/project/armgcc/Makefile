@@ -303,3 +303,7 @@ flash_bootloader_keil:
 flash_modelm_keil:
 	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../arm5_no_packs/_build/modelm-ble.hex verify reset exit"
 
+flash_dfu: flash_erase flash_softdevice flash_bootloader reset_target
+flash_gcc: flash_erase flash_softdevice flash_bootloader flash_modelm reset_target
+flash_mix: flash_erase flash_softdevice flash_bootloader_keil flash_modelm reset_target
+flash_keil: flash_erase flash_softdevice flash_bootloader_keil flash_modelm_keil reset_target
