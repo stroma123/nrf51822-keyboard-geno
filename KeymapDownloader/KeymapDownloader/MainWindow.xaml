@@ -6,11 +6,11 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:KeymapDownloader"
         mc:Ignorable="d"
-        Title="配列下载工具" Height="174.003" Width="460.907" IsMaxRestoreButtonEnabled="False">
+        Title="Keymap Download Tool" Height="174.003" Width="460.907" IsMaxRestoreButtonEnabled="False">
     <Grid>
         <Grid Height="26" Margin="10,10,10,0" VerticalAlignment="Top">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="选择设备" VerticalAlignment="Center"/>
-            <ComboBox Name="Devices" Margin="63,0,26,0" VerticalAlignment="Top" SelectionChanged="Devices_SelectionChanged" Controls:TextBoxHelper.Watermark="选择一个键盘"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Device" VerticalAlignment="Center"/>
+            <ComboBox Name="Devices" Margin="63,0,26,0" VerticalAlignment="Top" SelectionChanged="Devices_SelectionChanged" Controls:TextBoxHelper.Watermark="Select Keyboard"/>
             <Button Name="refresh" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Width="26" Style="{DynamicResource SquareButtonStyle}" Height="26" Click="refresh_Click">
                 <Rectangle Height="14" Width="12">
                     <Rectangle.Fill>
@@ -20,16 +20,16 @@
             </Button>
         </Grid>
         <Grid Height="26" Margin="10,46,10,0" VerticalAlignment="Top">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="选择文件" VerticalAlignment="Center"/>
-            <TextBox Name="Path" Margin="63,0,26,0" VerticalAlignment="Top" Controls:TextBoxHelper.Watermark="留空以使用键盘内置的配列" />
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File" VerticalAlignment="Center"/>
+            <TextBox Name="Path" Margin="63,0,26,0" VerticalAlignment="Top" Controls:TextBoxHelper.Watermark="Leave blank to use keyboard's build-in layout" />
             <Button Name="browse" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Width="26" Style="{DynamicResource SquareButtonStyle}" Content="..." Click="browse_Click" />
         </Grid>
         <Grid Height="26" Margin="10,82,10,0" VerticalAlignment="Top">
-            <Button Name="Download" Margin="0,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Content="下载" Click="Download_Click" />
+            <Button Name="Download" Margin="0,-3,0,0" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Content="Apply" Click="Download_Click" Controls:ControlsHelper.ContentCharacterCasing="Normal" Height="29" />
         </Grid>
         <StatusBar Margin="0,0,0,0" Height="26" 
                    VerticalAlignment="Bottom" >
-            <TextBlock x:Name="lbl_status" Foreground="White" Margin="5,0,5,0" Text="准备就绪"/>
+            <TextBlock x:Name="lbl_status" Foreground="White" Margin="5,0,5,0" Text="Ready"/>
         </StatusBar>
     </Grid>
     <Window.Resources>

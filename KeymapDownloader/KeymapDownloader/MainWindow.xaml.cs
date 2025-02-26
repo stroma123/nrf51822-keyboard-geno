@@ -40,7 +40,7 @@ namespace KeymapDownloader
             Devices.Items.Clear();
 
             var list = DeviceList.Local;
-            var HidDeviceList = list.GetHidDevices(0x3d41, 0x1919);
+            var HidDeviceList = list.GetHidDevices(0x1915, 0xeeee);
             foreach (var item in HidDeviceList)
             {
                 if (item.DevicePath.IndexOf("mi_02") != -1)
@@ -60,7 +60,7 @@ namespace KeymapDownloader
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
             ofd.DefaultExt = ".hex";
-            ofd.Filter = "HEX的配列文件|*.hex;*.eep|BIN格式的配列文件|*.bin";
+            ofd.Filter = "HEX file|*.hex;*.eep|BIN file|*.bin";
             if (ofd.ShowDialog() == true)
             {
                 Path.Text = ofd.FileName;
@@ -78,7 +78,7 @@ namespace KeymapDownloader
             {
                 if (!File.Exists(path))
                 {
-                    lbl_status.Text = "配列文件不存在";
+                    lbl_status.Text = "The configuration file does not exist";
                     return;
                 }
                 if (path.EndsWith("bin", StringComparison.CurrentCultureIgnoreCase))
@@ -103,7 +103,7 @@ namespace KeymapDownloader
                         }
                     }
                 }
-                // 第一个Byte为0x55代表启用此Keymap
+                // First byte is 0x55, means this Keymap is enabled
                 binary[0] = 0x55;
             }
 
@@ -122,7 +122,7 @@ namespace KeymapDownloader
                 lbl_status.Text = exp.Message;
             }
 
-            lbl_status.Text = "完成";
+            lbl_status.Text = "Done";
         }
 
         void SendPacket(HidStream stream, uint id, byte[] data)
@@ -145,7 +145,7 @@ namespace KeymapDownloader
 
             if (retryCount == 0)
             {
-                throw new Exception("发送重试次数达到上限");
+                throw new Exception("Sending retry count has exceeded");
             }
         }
 
