@@ -60,7 +60,17 @@ endif
 
 .PHONY:ch554, usb
 
+#target for printing all targets
+help:
+	@echo "following targets are available:"
+	@echo "    usb - Combines clean & ch554 targets"
+	@echo "    ch544"
+	@echo
+	@echo "Note, to build with CMSYS_DAP support run \"make ONBOARD_CMSIS_DAP=yes usb\""
+
+
 usb: clean ch554
+
 ch554: $(OUTPUT_HEX) $(OUTPUT_BIN)
 	@echo DONE ch554
 
@@ -73,7 +83,7 @@ $(OUTPUT_BIN): $(OUTPUT_IHX)
 	@makebin -p $(OUTPUT_IHX) $(OUTPUT_BIN)
 
 $(OBJ_DIR):
-	-@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 $(OUTPUT_IHX): $(LIBS)
 	@echo Linking target: $(notdir $(OUTPUT_IHX))
@@ -85,7 +95,8 @@ $(OBJ_DIR)/%.rel: $(USB_SOURCE_DIR)/%.c $(OBJ_DIR)
 
 .PHONY:clean
 clean:
-	rm -r $(OUTPUT_DIR)
+	@echo Cleaning...
+	@rm -rf $(OUTPUT_DIR)
 
 flash: $(OUTPUT_BIN)
 	wchisptool -f $(OUTPUT_BIN)
