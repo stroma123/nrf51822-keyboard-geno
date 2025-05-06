@@ -155,6 +155,47 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 #define MATRIX_HAS_GHOST
 #endif  // KEYBOARD_REV0
 
+#ifdef KEYBOARD_REV3  // MODEL M PCB REV 3
+#define KEYBOARD_ADC NRF_ADC_CONFIG_INPUT_3
+static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,29,30,0,1,19,3,4,5,6,7};
+static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
+
+
+#define PIN_NUM     16
+#define PIN_CAPS    17  // Can be used, via solder jumper, to sense DFU button during bootload time
+#define PIN_SCLK    18  // Scroll Lock pin is not available as LED, it is used to receive UART data from CH552
+
+//#define PIN_EXT1  19
+//#define PIN_EXT2  20
+//#define PIN_EXT3  1
+//#define PIN_EXT4  0
+//#define PIN_EXT5  5
+
+#define UART_TXD    20          // direct to TXD_NRF, to CH552T - RXD
+#define UART_RXD    PIN_SCLK    // shared with PIN_SCLK, to CH552T - TXD
+
+#define BOOTLOADER_BUTTON           PIN_CAPS  // DFU button to GND, shared with PIN_CAPS with solder jumper
+
+/* define two macros below to have dedicated keymap button as DFU button at boot time */
+#define DFU_COL     2           // col 2, row 7 = ESC
+#define DFU_ROW     7
+
+#define LED_CAPS                    PIN_CAPS
+#define LED_NUM                     PIN_NUM
+//#define LED_CHARGING                PIN_EXT4 
+//#define LED_FULL                    PIN_EXT3
+//#define LED_BLE                     PIN_EXT2
+//#define LED_USR1                    PIN_EXT5
+
+/* used on bootloader */
+#define UPDATE_IN_PROGRESS_LED      PIN_NUM
+#define ADVERTISING_LED_PIN_NO      PIN_NUM
+#define CONNECTED_LED_PIN_NO        PIN_NUM
+
+#define LED_POSITIVE
+#define MATRIX_HAS_GHOST
+#endif  // KEYBOARD_REV3
+
 #ifdef LED_POSITIVE
     #define LED_SET(x) nrf_gpio_pin_set(x)
     #define LED_CLEAR(x) nrf_gpio_pin_clear(x)

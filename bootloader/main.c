@@ -99,13 +99,14 @@ static void buttons_init(void)
     nrf_gpio_cfg_sense_input(BOOTLOADER_BUTTON,
                              NRF_GPIO_PIN_PULLUP, 
                              NRF_GPIO_PIN_SENSE_LOW);
-
-    nrf_gpio_cfg_sense_input(row_pin_array[0],
+#if defined(DFU_COL) && defined(DFU_ROW)
+    nrf_gpio_cfg_sense_input(row_pin_array[DFU_COL],
                              NRF_GPIO_PIN_PULLDOWN, 
                              NRF_GPIO_PIN_SENSE_HIGH);
 
-    nrf_gpio_cfg_output((uint32_t)column_pin_array[0]);
-    nrf_gpio_pin_set((uint32_t)column_pin_array[0]);
+    nrf_gpio_cfg_output((uint32_t)column_pin_array[DFU_ROW]);
+    nrf_gpio_pin_set((uint32_t)column_pin_array[DFU_ROW]);
+#endif
 }
 
 
@@ -219,9 +220,12 @@ int main(void)
     }
 
     //如果BL BUTTON和ESC同时按下，则启动DFU（dfu_start）
-    dfu_start = (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false); 
-    dfu_start &= (nrf_gpio_pin_read(row_pin_array[0]) == 1 ? true : false); 
-    
+    dfu_start = (nrf_gpio_pin_read(BOOTLOADER_BUTTON) == 0 ? true : false);
+    #ifdef DFU_ROW
+    // Also check if we have keymap button used as DFU
+    dfu_start &= (nrf_gpio_pin_read(row_pin_array[DFU_ROW]) == 1 ? true : false); 
+    #endif
+
     if (dfu_start || app_reset || (!bootloader_app_is_valid(DFU_BANK_0_REGION_START)))
     {
         LED_SET(UPDATE_IN_PROGRESS_LED);

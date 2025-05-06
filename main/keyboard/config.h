@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define MATRIX_ROWS 8
     #define MATRIX_COLS 16
 
-    #define KEYBOARD_REV0           // PCB revision
+    #define KEYBOARD_REV3           // PCB revision
     
     #define UART_SUPPORT
     #define BLE_LINK_SEC            // require password when pairing and enable MITM
