@@ -118,7 +118,7 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {29,25,23,4,3};
 
 #ifdef KEYBOARD_MODELM
 
-#ifdef KEYBOARD_REV0  // MODEL M PCB REV 0
+#if (KEYBOARD_REV == 0)  // MODEL M PCB REV 0
 /* 
  * MODEL M PCB REV 0 has battery voltage sense at P0.19, which is not analog input
  * For testing, COL10 (P0.02/AN3) is swapped with P0.19
@@ -153,9 +153,9 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 
 #define LED_POSITIVE
 #define MATRIX_HAS_GHOST
-#endif  // KEYBOARD_REV0
+#endif  // KEYBOARD_REV == 0
 
-#ifdef KEYBOARD_REV3  // MODEL M PCB REV 3
+#if (KEYBOARD_REV == 3)  // MODEL M PCB REV 3
 #define KEYBOARD_ADC NRF_ADC_CONFIG_INPUT_3
 static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,23,24,25,28,29,30,0,1,19,3,4,5,6,7};
 static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
@@ -194,7 +194,48 @@ static const uint8_t row_pin_array[MATRIX_ROWS] = {15,14,13,12,11,10,9,8};
 
 #define LED_POSITIVE
 #define MATRIX_HAS_GHOST
-#endif  // KEYBOARD_REV3
+#endif  // KEYBOARD_REV == 3
+
+#if (KEYBOARD_REV == 4)  // MODEL M PCB REV 4
+#define KEYBOARD_ADC NRF_ADC_CONFIG_INPUT_3
+static const uint8_t column_pin_array[MATRIX_COLS] = {21,22,24,23,25,28,29,30,0,1,15,3,4,20,17,19};
+static const uint8_t row_pin_array[MATRIX_ROWS] = {5,6,7,8,9,10,11,12};
+
+
+#define PIN_NUM     13
+#define PIN_CAPS    14  // Can be used, via solder jumper, to sense DFU button during bootload time
+#define PIN_SCLK    16  // Scroll Lock pin is not available as LED, it is used to receive UART data from CH552
+
+//#define PIN_EXT1  19
+//#define PIN_EXT2  20
+//#define PIN_EXT3  1
+//#define PIN_EXT4  0
+//#define PIN_EXT5  5
+
+#define UART_TXD    18          // direct to TXD_NRF, to CH552T - RXD
+#define UART_RXD    PIN_SCLK    // shared with PIN_SCLK, to CH552T - TXD
+
+#define BOOTLOADER_BUTTON           PIN_CAPS  // DFU button to GND, shared with PIN_CAPS with solder jumper
+
+/* define two macros below to have dedicated keymap button as DFU button at boot time */
+#define DFU_COL     2           // col 2, row 7 = ESC
+#define DFU_ROW     7
+
+#define LED_CAPS                    PIN_CAPS
+#define LED_NUM                     PIN_NUM
+//#define LED_CHARGING                PIN_EXT4 
+//#define LED_FULL                    PIN_EXT3
+//#define LED_BLE                     PIN_EXT2
+//#define LED_USR1                    PIN_EXT5
+
+/* used on bootloader */
+#define UPDATE_IN_PROGRESS_LED      PIN_NUM
+#define ADVERTISING_LED_PIN_NO      PIN_NUM
+#define CONNECTED_LED_PIN_NO        PIN_NUM
+
+#define LED_POSITIVE
+#define MATRIX_HAS_GHOST
+#endif  // KEYBOARD_REV == 4
 
 #ifdef LED_POSITIVE
     #define LED_SET(x) nrf_gpio_pin_set(x)

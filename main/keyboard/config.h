@@ -56,8 +56,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define MATRIX_ROWS 8
     #define MATRIX_COLS 16
 
-    #define KEYBOARD_REV3           // PCB revision
-    
+    #ifndef KEYBOARD_REV
+        #define KEYBOARD_REV 4      // PCB revision, defined via CFLAGS in Makefile
+    #endif
+
     #define UART_SUPPORT
     #define BLE_LINK_SEC            // require password when pairing and enable MITM
     #define WDT_ENABLE              // watchdog enable

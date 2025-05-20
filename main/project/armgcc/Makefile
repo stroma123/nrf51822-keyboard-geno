@@ -170,18 +170,22 @@ ASMFLAGS += -DBLE_DFU_APP_SUPPORT
 ASMFLAGS += -D__HEAP_SIZE=0
 
 #default target - first one defined
-default: clean modelm
+default: modelm_rev3
 
 #building all targets
 all: clean
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e cleanobj
-	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm_rev0
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm_rev3
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e modelm_rev4
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e ble60
 
 #target for printing all targets
 help:
 	@echo "following targets are available:"
-	@echo "    modelm"
+	@echo "    modelm_rev0"
+	@echo "    modelm_rev3"
+	@echo "    modelm_rev4"
 	@echo "    ble60"
 	@echo "    flash_erase"
 	@echo "    flash_softdevice"
@@ -204,9 +208,17 @@ vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
-modelm: CFLAGS += -DMODELM
-modelm: OUTPUT_FILENAME = modelm_app
-modelm: ble_xx finalize
+modelm_rev0: CFLAGS += -DMODELM -DKEYBOARD_REV=0
+modelm_rev0: OUTPUT_FILENAME = modelm_app_rev0
+modelm_rev0: ble_xx finalize
+
+modelm_rev3: CFLAGS += -DMODELM -DKEYBOARD_REV=3
+modelm_rev3: OUTPUT_FILENAME = modelm_app_rev3
+modelm_rev3: ble_xx finalize
+
+modelm_rev4: CFLAGS += -DMODELM -DKEYBOARD_REV=4
+modelm_rev4: OUTPUT_FILENAME = modelm_app_rev4
+modelm_rev4: ble_xx finalize
 
 ble60: CFLAGS += -DBLE60
 ble60: OUTPUT_FILENAME = ble60_app
@@ -276,32 +288,32 @@ flash: $(MAKECMDGOALS)
 
 flash_hex:
 	@echo Flashing: $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).hex
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c halt -c "program $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).hex verify reset exit"
 
 flash_erase:
 	@echo Mass erase all flash!
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c "nrf51 mass_erase" -c exit
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c "nrf51 mass_erase" -c exit
 
 ## Flash softdevice
 flash_softdevice:
 	@echo Flashing: s110_nrf51_8.0.0_softdevice.hex
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../sdk/s110_nrf51_8.0.0_softdevice.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c halt -c "program ../../../sdk/s110_nrf51_8.0.0_softdevice.hex verify reset exit"
 
 reset_target:
 	@echo Resetting...
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset run" -c exit
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset run" -c exit
 
-flash_modelm: OUTPUT_FILENAME = modelm_app
+flash_modelm: OUTPUT_FILENAME = modelm_app_rev4
 flash_modelm: flash_hex
 
 flash_bootloader:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/armgcc/_build/modelm_bootloader.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/armgcc/_build/modelm_bootloader.hex verify reset exit"
 
 flash_bootloader_keil:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/arm5_no_packs/_build/modelm_bootloader.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c halt -c "program ../../../bootloader/project/arm5_no_packs/_build/modelm_bootloader.hex verify reset exit"
 
 flash_modelm_keil:
-	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51x22.cfg -c init -c "reset init" -c halt -c "program ../arm5_no_packs/_build/modelm-ble.hex verify reset exit"
+	"$(OPENOCD_PATH)/$(OPENOCD_EXECUTABLE)" -f board/nrf51-cmsis.cfg -c init -c "reset init" -c halt -c "program ../arm5_no_packs/_build/modelm-ble.hex verify reset exit"
 
 flash_dfu: flash_erase flash_softdevice flash_bootloader reset_target
 flash_gcc: flash_erase flash_softdevice flash_bootloader flash_modelm reset_target
